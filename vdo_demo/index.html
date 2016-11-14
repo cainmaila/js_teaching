@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>影音範例</title>
+    <style>
+    .vdo_sty {
+        position: absolute;
+        top: 100px;
+        left: 0px;
+    }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h2>M1 Play!</h2>
+        <button id="b1">M1</button>
+        <button id="b2">M2</button>
+        <button id="b3">M3</button>
+        <video class="vdo_sty" id="myVideo" width="720" height="480">
+            <source src="./mv1.mp4" type="video/mp4">
+        </video>
+        <video class="vdo_sty" id="myVideo2" width="720" height="480">
+            <source src="./mv2.mp4" type="video/mp4">
+        </video>
+        <video class="vdo_sty" id="myVideo3" width="720" height="480">
+            <source src="./mv3.mp4" type="video/mp4">
+        </video>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+<script>
+var vdo1 = $('#myVideo');
+var vdo2 = $('#myVideo2');
+var vdo3 = $('#myVideo3');
+var til = $('h2');
+var nowKey = 'b1';
+var nowVdo = vdo1;
+$('#b1').on('click', playMv);
+$('#b2').on('click', playMv);
+$('#b3').on('click', playMv);
+
+vdo1.css('display', 'block');
+vdo2.css('display', 'none');
+vdo3.css('display', 'none');
+
+vdo1[0].play();
+
+function playMv(e) {
+    var setVdo;
+    var key = e.target.id;
+    if (key == nowKey) return;
+    switch (key) {
+        case 'b1':
+            setVdo = vdo1;
+            til.html('M1 Play!');
+            break;
+        case 'b2':
+            setVdo = vdo2;
+            til.html('M2 Play!');
+            break;
+        case 'b3':
+            setVdo = vdo3;
+            til.html('M3 Play!');
+            break;
+    }
+    setVdo[0].currentTime = nowVdo[0].currentTime;
+    setVdo[0].play();
+    nowVdo[0].pause();
+    setVdo.css('display', 'block');
+    nowVdo.css('display', 'none');
+    nowVdo = setVdo;
+    nowKey = key;
+}
+</script>
+
+</html>
