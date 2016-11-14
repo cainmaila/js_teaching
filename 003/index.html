@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Jq範例</title>
+    <link rel="stylesheet" type="text/css" href="./css/normalize.min.css">
+    <style type="text/css" media="screen">
+    #pcx {
+        position: relative;
+        top: 0px;
+        left: 0px;
+    }
+    
+    .pcxbg {
+        position: absolute;
+        width: 100%;
+    }
+    
+    #bg1 {
+        /*background-color: #ff0000;*/
+        background: url("./images/cat1.jpg");
+        background-size: cover;
+        background-position: center center;
+    }
+    
+    #bg2 {
+        background: url("./images/cat2.jpg");
+        background-size: cover;
+        background-position: center center;
+    }
+    
+    #bg3 {
+        background: url("./images/cat3.jpg");
+        background-size: cover;
+        background-position: center center;
+    }
+    
+    h1 {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        margin-top: -50px;
+        text-align: center;
+        font-size: 68px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="#pcx">
+        <div class="pcxbg" id="bg1"></div>
+        <div class="pcxbg" id="bg2"></div>
+        <div class="pcxbg" id="bg3"></div>
+    </div>
+    <h1>My Cats!</h1>
+    <script src="./js/jquery-3.1.1.min.js"></script>
+    <script>
+    var $win = $(window);
+    var $pcxbg = $('.pcxbg');
+    var $bg1 = $('#bg1');
+    var $bg2 = $('#bg2');
+    var $bg3 = $('#bg3');
+    var win_h = 0;
+    var mykey = 1;
+
+    $win.on('resize', win_resize);
+    win_resize();
+
+    // $bg1.hide();
+    $bg2.hide();
+    $bg3.hide();
+
+    setInterval(next, 4000);
+
+    function next() {
+        mykey = mykey + 1;
+        if (mykey > 3) {
+            mykey = 1;
+        }
+        reShow(mykey);
+    }
+
+    function reShow(key) {
+        if (key == 1) {
+            p3top1();
+        } else if (key == 2) {
+            p1top2();
+        } else if (key == 3) {
+            p2top3();
+        }
+    }
+
+    function p1top2() {
+        $bg1.fadeOut(1000);
+        $bg2.fadeIn(2000);
+    }
+
+    function p2top3() {
+        $bg2.fadeOut(1000);
+        $bg3.fadeIn(2000);
+    }
+
+    function p3top1() {
+        $bg3.fadeOut(1000);
+        $bg1.fadeIn(2000);
+    }
+
+
+    function win_resize() {
+        win_h = $win.height();
+        $pcxbg.height(win_h);
+    }
+    </script>
+</body>
+
+</html>
