@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JQ範例 - 按鈕</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css">
+</head>
+
+<body>
+    <h1>JQ範例 - 按鈕</h1>
+    <div>
+        <button id="bn1">出現</button>
+        <button id="bn2">隱藏</button>
+    </div>
+    <hr>
+    <div>
+        <img id="pcx" src="cat2.jpg" alt="滑鼠滑入提示文字">
+    </div>
+    <!-- 使用cdn上的jq
+ -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script>
+    /* 按下按鈕後，執行相對應的函示 */
+    $('#bn1').click(showPcx);
+    $('#bn2').click(hidePcx);
+
+    function showPcx() {
+        $('#pcx').show(200);
+    }
+
+    function hidePcx() {
+        $('#pcx').hide(200);
+    }
+    </script>
+</body>
+
+</html>
