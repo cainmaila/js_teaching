@@ -1,14 +1,87 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta charset="UTF-8">
-	<title>基本樣板</title>
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css">
+    <meta charset="UTF-8">
+    <title>展開範例</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css">
+    <style type="text/css">
+    .bn {
+        line-height: 35px;
+        font-size: 24px;
+        font-weight: bold;
+    }
+    
+    .txt {
+        border: 1px solid #000;
+        margin: 10px 0px 20px 0px;
+        padding: 30px 15px 15px 15px;
+        font-size: 16px;
+        line-height: 24px;
+        text-align: justify;
+        display: none;
+        position: relative;
+        text-indent: 2em;
+    }
+    
+    .xbn {
+        position: absolute;
+        top: 5px;
+        right: 15px;
+    }
+    
+    .mouseOver {
+        cursor: pointer;
+    }
+    
+    .mouseOver:hover {
+        color: #ff0000;
+    }
+    
+    #app {
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+    
+    #pcx1 > img {
+        width: 100%;
+    }
+    </style>
 </head>
+
 <body>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script>
-	//js寫在這
-</script>
+    <div id="app">
+        <h1> 這是一個展開範例 </h1>
+        <hr>
+        <div class="bn mouseOver" id="bn1">展開文件</div>
+        <div class="txt" id="txt1">美國總統當選人川普，選了半天，得罪了一堆人，好不容易選上了，他又嫌白宮房子太小。他說，白宮將是他住過最小的房子。 白宮佔地七萬三千平方公尺，兩萬兩千坪，而川普在佛羅里達州「棕櫚灘」的私宅，佔地兩萬四千坪。他在佛州的家面對大海，四季如夏，旁邊就是他自己擁有的高爾夫球場。 另外，一當上美國總統，川普未來四年就只能坐美國通用出的凱迪拉克或是福特的林肯這兩個牌子的車子。他自己那三十多輛進口名車就只能停在車庫裡蒙塵了。
+            <div class="xbn mouseOver" id="txt1_xbn">關閉</div>
+        </div>
+        <div class="bn mouseOver" id="bn2">展開圖片</div>
+        <div id="pcx1">
+            <img src="./cat2.jpg">
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script>
+    var $bn1 = $('#bn1');
+    var $bn2 = $('#bn2');
+    var $txt1 = $('#txt1');
+    var $pcx1 = $('#pcx1');
+    var $txt1_xbn = $('#txt1_xbn');
+    $bn1.on('click', function() {
+        $txt1.stop().slideToggle(200);
+    })
+
+    $txt1_xbn.on('click', function() {
+        $txt1.slideUp(200);
+        // $txt1.stop().slideDown(200);
+    });
+
+    $bn2.on('click', function() {
+        $pcx1.stop().slideToggle(200);
+    })
+    </script>
 </body>
+
 </html>
