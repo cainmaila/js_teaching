@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CSS - Position</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css">
+    <style type="text/css">
+    body {
+        /*background-color: #f00;*/
+        background-image: url("../images/desk.jpg");
+    }
+    
+    .card {
+        position: absolute;
+        box-shadow: 6px 8px 15px #000000;
+    }
+    
+    #myCard {
+        position: relative;
+        left: 50%;
+        top: 100px;
+        margin-left: -140px;
+    }
+    
+    #c_0 {
+        transform: rotate(-75deg);
+        transform-origin: 50% 100%;
+    }
+    
+    #c_1 {
+        transform: rotate(-45deg);
+        transform-origin: 50% 100%;
+    }
+    
+    #c_2 {
+        transform: rotate(-15deg);
+        transform-origin: 50% 100%;
+    }
+    
+    #c_3 {
+        transform: rotate(15deg);
+        transform-origin: 50% 100%;
+    }
+    
+    #c_4 {
+        transform: rotate(45deg);
+        transform-origin: 50% 100%;
+    }
+    
+    #c_5 {
+        transform: rotate(75deg);
+        transform-origin: 50% 100%;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="myCard">
+        <div class="card" id="c_0">
+            <img src="../images/jack.png" alt="">
+        </div>
+        <div class="card" id="c_1">
+            <img src="../images/jack.png" alt="">
+        </div>
+        <div class="card" id="c_2">
+            <img src="../images/jack.png" alt="">
+        </div>
+        <div class="card" id="c_3">
+            <img src="../images/jack.png" alt="">
+        </div>
+        <div class="card" id="c_4">
+            <img src="../images/jack.png" alt="">
+        </div>
+        <div class="card" id="c_5">
+            <img src="../images/jack.png" alt="">
+        </div>
+    </div>
+    <script src="../003/js/jquery-3.1.1.min.js"></script>
+    <script>
+    var c0 = $('#c_0');
+    var c1 = $('#c_1');
+    var c2 = $('#c_2');
+    var c3 = $('#c_3');
+    var c4 = $('#c_4');
+    var c5 = $('#c_5');
+    c0.hide().delay(1000).fadeIn(500);
+    c1.hide().delay(2000).fadeIn(500);
+    c2.hide().delay(3000).fadeIn(500);
+    c3.hide().delay(4000).fadeIn(500);
+    c4.hide().delay(5000).fadeIn(500);
+    c5.hide().delay(6000).fadeIn(500);
+    </script>
+</body>
+
+</html>
