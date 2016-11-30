@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JS 範例</title>
+</head>
+
+<body>
+</body>
+<script>
+// 判斷
+if (true) {
+    console.log(1);
+} else if (true) {
+    console.log(2);
+} else {
+    console.log(3);
+}
+
+//回圈
+var i;
+for (i = 0; i >= 10; i++) {
+    console.log(i);
+}
+
+//while
+var a = 0;
+while (a < 10) {
+    console.log(a);
+    a++;
+}
+
+//v選擇
+var b = 1;
+switch (b) {
+    case 1:
+        console.log('b=1');
+        break;
+    case 2:
+        console.log('b=2');
+        break;
+    default:
+        console.log('b不等於1或2');
+}
+
+//陣列
+var arr = [1, 2, 3, 4, 5];
+
+//物件
+var ob = {
+    a: 1,
+    b: 2,
+    c: 3,
+}
+console.log(ob);
+console.log(ob.a);
+console.log(ob['b']);
+
+//命名空間
+var c = 1;
+
+function myFun() {
+    var c = 2;
+    console.log(c);
+}
+console.log(c);
+</script>
+
+</html>

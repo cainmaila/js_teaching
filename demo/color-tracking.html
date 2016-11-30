@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>色彩追蹤</title>
+</head>
+
+<body>
+    <div>
+        <video id="video" width="600" height="450" preload autoplay loop muted controls></video>
+    </div>
+    <script src="../lib/jquery-3.1.1.min.js"></script>
+    <script src="../lib/tracking-min.js"></script>
+    <script>
+    var video = $('#video');
+    var tracker = new tracking.ColorTracker();
+    tracking.track('#video', tracker, {
+        camera: true
+    });
+
+    tracker.on('track', function(event) {
+        event.data.forEach(function(rect) {
+            console.log(rect.color);
+            if (rect.color === 'custom') {
+                rect.color = tracker.customColor;
+            }
+        });
+    });
+    </script>
+</body>
+
+</html>
