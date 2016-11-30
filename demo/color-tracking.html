@@ -4,43 +4,110 @@
 <head>
     <meta charset="UTF-8">
     <title>色彩追蹤</title>
+    <style type="text/css" media="screen">
+    body {
+        margin: 0px;
+        padding: 0px;
+    }
+    
+    .mc {
+        line-height: 100px;
+        text-align: center;
+        width: 50px;
+        height: 100px;
+        background: #E3EF0F;
+    }
+    
+    #myBox {
+        width: 0px;
+        height: 0px;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        border-style: solid;
+        border-width: 3px;
+        display: none;
+    }
+    
+    #l_mc {
+        position: absolute;
+        top: 200px;
+        left: 0px;
+    }
+    
+    #r_mc {
+        position: absolute;
+        top: 200px;
+        left: 750px;
+    }
+    </style>
 </head>
 
 <body>
     <div>
-        <video id="video" width="600" height="450" preload autoplay loop muted controls></video>
+        <video id="video" width="800" height="600" preload autoplay loop muted controls></video>
     </div>
-    <script src="../lib/jquery-3.1.1.min.js"></script>
-    <script src="../lib/tracking-min.js"></script>
+    <div id="myBox">
+    </div>
+    <div class="mc" id="l_mc">左
+    </div>
+    <div class="mc" id="r_mc">右
+    </div>
+    <script src="./lib/jquery-3.1.1.min.js"></script>
+    <script src="./lib/tracking-min.js"></script>
     <script>
-    // var video = $('#video');
-    // var tracker = new tracking.ColorTracker();
-    // tracking.track('#video', tracker, {
-    //     camera: true
-    // });
-
-    // tracker.on('track', function(event) {
-    //     event.data.forEach(function(rect) {
-    //         console.log(rect.color);
-    //         if (rect.color === 'custom') {
-    //             rect.color = tracker.customColor;
-    //         }
-    //     });
-    // });
-
-    var colors = new tracking.ColorTracker(['magenta', 'cyan', 'yellow']);
-
-    colors.on('track', function(event) {
+    var video = $('#video');
+    var box = $('#myBox');
+    var l_mc = $('#l_mc');
+    var r_mc = $('#r_mc');
+    var tracker = new tracking.ColorTracker(['yellow']);
+    tracking.track('#video', tracker, {
+        camera: true
+    });
+    var po_x = 0;
+    tracker.on('track', function(event) {
         if (event.data.length === 0) {
-            // No colors were detected in this frame.
+            box.css('display', 'none');
         } else {
             event.data.forEach(function(rect) {
-                console.log(rect.x, rect.y, rect.height, rect.width, rect.color);
+                box.css({
+                    top: rect.y,
+                    left: rect.x,
+                    width: rect.height,
+                    height: rect.width
+                });
+                po_x = rect.x + (rect.width >> 1);
+                return;
             });
+            box.css('display', 'block');
         }
     });
 
-    tracking.track('#video', colors);
+    var l_m = 0;
+    var r_m = 0;
+    var up_x = 0;
+    setInterval(function() {
+        if (po_x - up_x > 20) {
+            l_m++;
+            r_m = 0;
+        } else if (po_x - up_x < -20) {
+            r_m++;
+            l_m = 0;
+        } else {
+            // l_m = 0;
+            // r_m = 0;
+        }
+        if (l_m > 3) {
+            l_mc.css('background', '#f00');
+            r_mc.css('background', '#E3EF0F');
+            l_m = 0;
+        } else if (r_m > 3) {
+            r_mc.css('background', '#f00');
+            l_mc.css('background', '#E3EF0F');
+            r_m = 0;
+        }
+        up_x = po_x;
+    }, 50)
     </script>
 </body>
 
