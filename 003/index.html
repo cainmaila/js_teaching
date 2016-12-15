@@ -6,10 +6,15 @@
     <title>Jq範例</title>
     <link rel="stylesheet" type="text/css" href="./css/normalize.min.css">
     <style type="text/css" media="screen">
+    .m_po {
+        cursor: pointer;
+    }
+    
     #pcx {
         position: relative;
         top: 0px;
         left: 0px;
+        z-index: 0;
     }
     
     .pcxbg {
@@ -17,95 +22,142 @@
         width: 100%;
     }
     
-    #bg1 {
+    #bg0 {
         /*background-color: #ff0000;*/
         background: url("./images/cat1.jpg");
         background-size: cover;
         background-position: center center;
     }
     
-    #bg2 {
+    #bg1 {
         background: url("./images/cat2.jpg");
         background-size: cover;
         background-position: center center;
     }
     
-    #bg3 {
+    #bg2 {
         background: url("./images/cat3.jpg");
         background-size: cover;
         background-position: center center;
     }
     
-    h1 {
+    #menu {
         position: absolute;
-        top: 50%;
-        width: 100%;
-        margin-top: -50px;
-        text-align: center;
-        font-size: 68px;
+        bottom: 10px;
+        left: 50%;
+        margin-left: calc( -25px * 3 / 2);
+    }
+    
+    #menu > div {
+        width: 15px;
+        height: 15px;
+        background-color: #C0C0C0;
+        float: left;
+        margin: 0px 10px 0px 0px;
+        border-radius: 10px;
+    }
+    
+    #menu > div:hover {
+        background-color: #FFFFFF;
+        box-shadow: 4px 6px 23px #000000;
+    }
+    
+    #menu > .now {
+        background-color: #404040;
     }
     </style>
 </head>
 
 <body>
     <div id="#pcx">
+        <div class="pcxbg" id="bg0"></div>
         <div class="pcxbg" id="bg1"></div>
         <div class="pcxbg" id="bg2"></div>
-        <div class="pcxbg" id="bg3"></div>
     </div>
-    <h1>My Cats!</h1>
+    <div id="menu">
+        <div class="m_po now" id="b0"></div>
+        <div class="m_po" id="b1"></div>
+        <div class="m_po" id="b2"></div>
+    </div>
     <script src="./js/jquery-3.1.1.min.js"></script>
     <script>
     var $win = $(window);
     var $pcxbg = $('.pcxbg');
-    var $bg1 = $('#bg1');
-    var $bg2 = $('#bg2');
-    var $bg3 = $('#bg3');
+    var $m_po = $(".m_po");
+    var $bg0 = $pcxbg.eq(0);
+    var $bg1 = $pcxbg.eq(1);
+    var $bg2 = $pcxbg.eq(2);
     var win_h = 0;
-    var mykey = 1;
+    var mykey = 0;
+    var isOver = false;
+
+    $('#menu > div').on('click', function(e) {
+        var click_id = $(e.target).attr('id');
+        reShow(click_id.substr(1, 1));
+    })
+
+    $('#menu').on('mouseover', function(e) {
+        isOver = true;
+    })
+
+    $('#menu').on('mouseout', function(e) {
+        isOver = false;
+    })
 
     $win.on('resize', win_resize);
     win_resize();
 
-    // $bg1.hide();
+    $bg1.hide();
     $bg2.hide();
-    $bg3.hide();
+    top0();
 
     setInterval(next, 4000);
 
     function next() {
-        mykey = mykey + 1;
-        if (mykey > 3) {
-            mykey = 1;
+        if (isOver) {
+            return;
         }
-        reShow(mykey);
+        var key = mykey + 1;
+        if (key > 2) {
+            key = 0;
+        }
+        reShow(key);
     }
 
     function reShow(key) {
-        if (key == 1) {
-            p3top1();
+        if (key == 0) {
+            top0();
+        } else if (key == 1) {
+            top1();
         } else if (key == 2) {
-            p1top2();
-        } else if (key == 3) {
-            p2top3();
+            top2();
         }
     }
 
-    function p1top2() {
-        $bg1.fadeOut(1000);
-        $bg2.fadeIn(2000);
+    function top0() {
+        mykey = 0;
+        $bg2.stop().fadeOut(1000);
+        $bg1.stop().fadeOut(1000);
+        $bg0.stop().fadeIn(2000);
+        $m_po.removeClass('now').eq(mykey).addClass('now');
     }
 
-    function p2top3() {
-        $bg2.fadeOut(1000);
-        $bg3.fadeIn(2000);
+    function top1() {
+        mykey = 1;
+        $bg0.stop().fadeOut(1000);
+        $bg1.stop().fadeIn(2000);
+        $bg2.stop().fadeOut(1000);
+        $m_po.removeClass('now').eq(mykey).addClass('now');
+
     }
 
-    function p3top1() {
-        $bg3.fadeOut(1000);
-        $bg1.fadeIn(2000);
+    function top2() {
+        mykey = 2;
+        $bg0.stop().fadeOut(1000);
+        $bg1.stop().fadeOut(1000);
+        $bg2.stop().fadeIn(2000);
+        $m_po.removeClass('now').eq(mykey).addClass('now');
     }
-
 
     function win_resize() {
         win_h = $win.height();
