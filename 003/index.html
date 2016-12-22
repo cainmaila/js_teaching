@@ -11,32 +11,18 @@
     }
     
     #pcx {
-        position: relative;
+        position: absolute;
         top: 0px;
+        bottom: 0px;
         left: 0px;
+        right: 0px;
         z-index: 0;
     }
     
     .pcxbg {
         position: absolute;
         width: 100%;
-    }
-    
-    #bg0 {
-        /*background-color: #ff0000;*/
-        background: url("./images/cat1.jpg");
-        background-size: cover;
-        background-position: center center;
-    }
-    
-    #bg1 {
-        background: url("./images/cat2.jpg");
-        background-size: cover;
-        background-position: center center;
-    }
-    
-    #bg2 {
-        background: url("./images/cat3.jpg");
+        height: 100%;
         background-size: cover;
         background-position: center center;
     }
@@ -45,7 +31,8 @@
         position: absolute;
         bottom: 10px;
         left: 50%;
-        margin-left: calc( -25px * 3 / 2);
+        /*margin-left: calc( -25px * 3 / 2);*/
+        transform: translateX(-50%);
     }
     
     #menu > div {
@@ -69,100 +56,18 @@
 </head>
 
 <body>
-    <div id="#pcx">
-        <div class="pcxbg" id="bg0"></div>
-        <div class="pcxbg" id="bg1"></div>
-        <div class="pcxbg" id="bg2"></div>
+    <div id="pcx">
+        <!-- <div class="pcxbg" id="bg0"></div>
+<div class="pcxbg" id="bg1"></div>
+<div class="pcxbg" id="bg2"></div>
+ -->
     </div>
-    <div id="menu">
-        <div class="m_po now" id="b0"></div>
-        <div class="m_po" id="b1"></div>
-        <div class="m_po" id="b2"></div>
-    </div>
+    <div id="menu"></div>
     <script src="./js/jquery-3.1.1.min.js"></script>
+    <script src="./js/myfun.js"></script>
     <script>
-    var $win = $(window);
-    var $pcxbg = $('.pcxbg');
-    var $m_po = $(".m_po");
-    var $bg0 = $pcxbg.eq(0);
-    var $bg1 = $pcxbg.eq(1);
-    var $bg2 = $pcxbg.eq(2);
-    var win_h = 0;
-    var mykey = 0;
-    var isOver = false;
-
-    $('#menu > div').on('click', function(e) {
-        var click_id = $(e.target).attr('id');
-        reShow(click_id.substr(1, 1));
-    })
-
-    $('#menu').on('mouseover', function(e) {
-        isOver = true;
-    })
-
-    $('#menu').on('mouseout', function(e) {
-        isOver = false;
-    })
-
-    $win.on('resize', win_resize);
-    win_resize();
-
-    $bg1.hide();
-    $bg2.hide();
-    top0();
-
-    setInterval(next, 4000);
-
-    function next() {
-        if (isOver) {
-            return;
-        }
-        var key = mykey + 1;
-        if (key > 2) {
-            key = 0;
-        }
-        reShow(key);
-    }
-
-    function reShow(key) {
-        if (key == 0) {
-            top0();
-        } else if (key == 1) {
-            top1();
-        } else if (key == 2) {
-            top2();
-        }
-    }
-
-    function top0() {
-        mykey = 0;
-        $bg2.stop().fadeOut(1000);
-        $bg1.stop().fadeOut(1000);
-        $bg0.stop().fadeIn(2000);
-        $m_po.removeClass('now').eq(mykey).addClass('now');
-    }
-
-    function top1() {
-        mykey = 1;
-        $bg0.stop().fadeOut(1000);
-        $bg1.stop().fadeIn(2000);
-        $bg2.stop().fadeOut(1000);
-        $m_po.removeClass('now').eq(mykey).addClass('now');
-
-    }
-
-    function top2() {
-        mykey = 2;
-        $bg0.stop().fadeOut(1000);
-        $bg1.stop().fadeOut(1000);
-        $bg2.stop().fadeIn(2000);
-        $m_po.removeClass('now').eq(mykey).addClass('now');
-    }
-
-    function win_resize() {
-        win_h = $win.height();
-        $pcxbg.height(win_h);
-    }
+    var pcxList = ["./images/cat1.jpg", "./images/cat2.jpg", "./images/cat3.jpg"];
+    myFun(pcxList, true);
     </script>
 </body>
 
