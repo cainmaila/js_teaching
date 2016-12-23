@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Jq範例</title>
+    <link rel="stylesheet" type="text/css" href="./css/normalize.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/myfun.css">
+    <style type="text/css" media="screen">
+    body {
+        background-color: #00A190;
+        overflow: hidden;
+    }
+    
+    #pcx {
+        position: relative;
+        width: 500px;
+        height: 500px;
+        margin: 0px auto 0px auto;
+        border: 5px dotted #fff;
+        box-shadow: 10px 10px 37px #000000;
+        border-radius: 500px;
+        overflow: hidden;
+        /*transform: rotate(-15deg);*/
+        animation-duration: 5s;
+        animation-name: ropcx;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+    }
+    
+    h1 {
+        animation-duration: 3s;
+        animation-name: slidein;
+        /*animation-iteration-count: 3;*/
+        animation-iteration-count: infinite;
+        /*animation-direction: alternate;*/
+        animation-timing-function: easeOutBounce;
+    }
+    
+    @keyframes ropcx {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+    
+    @keyframes slidein {
+        from {
+            padding-left: 100%;
+            width: 300%;
+        }
+        to {
+            padding-left: 0%;
+            width: 100%;
+        }
+        0% {
+            color: red;
+        }
+        25% {
+            color: yellow;
+        }
+        50% {
+            color: blue;
+        }
+        100% {
+            color: green;
+        }
+    }
+    
+    @keyframes slidein2 {
+        0% {
+            color: red;
+        }
+        25% {
+            color: yellow;
+        }
+        50% {
+            color: blue;
+        }
+        100% {
+            color: green;
+        }
+    }
+    </style>
+</head>
+
+<body>
+    <h1>我的外掛</h1>
+    <div id="pcx"></div>
+    <script src="./js/jquery-3.1.1.min.js"></script>
+    <script src="./js/myfun.js"></script>
+    <script>
+    myFun('#pcx', ["./images/cat1.jpg", "./images/cat2.jpg", "./images/cat3.jpg"], true);
+    </script>
+</body>
+
+</html>

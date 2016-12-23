@@ -1,4 +1,4 @@
-function myFun(pcxArr, isAutoPlay) {
+function myFun(id, pcxArr, isAutoPlay) {
     var pcxNum = pcxArr.length;
     var mykey = 0;
     var isOver = false;
@@ -6,10 +6,12 @@ function myFun(pcxArr, isAutoPlay) {
 
     for (var i = 0; i < pcxNum; i++) {
         $bg = $('<div class="pcxbg"></div>');
-        $bg.appendTo('#pcx').css('background-image', 'url(' + pcxArr[i] + ')');
+        $bg.appendTo(id).css('background-image', 'url(' + pcxArr[i] + ')');
     }
     // var $win = $(window);
     var $pcxbg = $('.pcxbg');
+
+    $('<div id="menu"></div>').appendTo('#pcx');
 
     for (i = 0; i < $pcxbg.length; i++) {
         $('<div class="m_po" key="' + i + '"></div>').appendTo('#menu');

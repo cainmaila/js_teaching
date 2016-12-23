@@ -1,0 +1,37 @@
+.m_po {
+    cursor: pointer;
+}
+
+.pcxbg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center center;
+}
+
+#menu {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    /*margin-left: calc( -25px * 3 / 2);*/
+    transform: translateX(-50%);
+}
+
+#menu > div {
+    width: 15px;
+    height: 15px;
+    background-color: #C0C0C0;
+    float: left;
+    margin: 0px 10px 0px 0px;
+    border-radius: 10px;
+}
+
+#menu > div:hover {
+    background-color: #FFFFFF;
+    box-shadow: 4px 6px 23px #000000;
+}
+
+#menu > .now {
+    background-color: #404040;
+}

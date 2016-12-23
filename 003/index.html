@@ -5,20 +5,8 @@
     <meta charset="UTF-8">
     <title>Jq範例</title>
     <link rel="stylesheet" type="text/css" href="./css/normalize.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/myfun.css">
     <style type="text/css" media="screen">
-    .m_po {
-        cursor: pointer;
-    }
-    
-    #pcx {
-        position: absolute;
-        top: 0px;
-        bottom: 0px;
-        left: 0px;
-        right: 0px;
-        z-index: 0;
-    }
-    
     .pcxbg {
         position: absolute;
         width: 100%;
@@ -26,48 +14,16 @@
         background-size: cover;
         background-position: center center;
     }
-    
-    #menu {
-        position: absolute;
-        bottom: 10px;
-        left: 50%;
-        /*margin-left: calc( -25px * 3 / 2);*/
-        transform: translateX(-50%);
-    }
-    
-    #menu > div {
-        width: 15px;
-        height: 15px;
-        background-color: #C0C0C0;
-        float: left;
-        margin: 0px 10px 0px 0px;
-        border-radius: 10px;
-    }
-    
-    #menu > div:hover {
-        background-color: #FFFFFF;
-        box-shadow: 4px 6px 23px #000000;
-    }
-    
-    #menu > .now {
-        background-color: #404040;
-    }
     </style>
 </head>
 
 <body>
-    <div id="pcx">
-        <!-- <div class="pcxbg" id="bg0"></div>
-<div class="pcxbg" id="bg1"></div>
-<div class="pcxbg" id="bg2"></div>
- -->
-    </div>
-    <div id="menu"></div>
+    <div id="pcx"></div>
     <script src="./js/jquery-3.1.1.min.js"></script>
     <script src="./js/myfun.js"></script>
     <script>
     var pcxList = ["./images/cat1.jpg", "./images/cat2.jpg", "./images/cat3.jpg"];
-    myFun(pcxList, true);
+    myFun('#pcx', pcxList, true);
     </script>
 </body>
 
