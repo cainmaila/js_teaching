@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CSS3動畫範例</title>
+    <link rel="stylesheet" type="text/css" href="./css/normalize.min.css">
+    <style type="text/css" media="screen">
+    #pcx {
+        /*全景背景設定*/
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        background: url('images/cat1.jpg');
+        background-size: cover;
+        background-position: center center;
+    }
+    
+    #pcx2 {
+        /*DIV置中*/
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        top: 50%;
+        left: 50%;
+        background: url('images/cat2.jpg');
+        background-size: cover;
+        background-position: center center;
+        transform: translate(-50%, -50%);
+        /*DIV圓角*/
+        border-radius: 150px;
+        /*動畫5秒*/
+        animation-duration: 5s;
+        /*動畫重復*/
+        animation-iteration-count: infinite;
+        /*動畫線性，預設是漸進*/
+        animation-timing-function: linear;
+        /*要套用的動畫動態*/
+        animation-name: ropcx;
+    }
+    
+    @keyframes ropcx {
+        from {
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+        to {
+            transform: translate(-50%, -50%) rotate(360deg);
+        }
+    }
+    </style>
+</head>
+
+<body>
+    <div id="pcx"></div>
+    <div id="pcx2"></div>
+    <script>
+    </script>
+</body>
+
+</html>
