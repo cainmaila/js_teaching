@@ -45,10 +45,10 @@
         stageW = $win.width();
         stageH = $win.height();
         stageSC = stageH / stageW; //計算比例
-        videoH = video[0].videoHeight;
+        videoH = video[0].videoHeight; //取得影片內容真實的寬高
         videoW = video[0].videoWidth;
         videoSC = videoH / videoW; //計算比例
-        if (videoSC > stageSC) { //比較比例
+        if (videoSC > stageSC) { //比較比例，根據比例決定以寬或高為基準
             //寬滿版 高自動
             video.width(stageW);
             video.height('auto');
