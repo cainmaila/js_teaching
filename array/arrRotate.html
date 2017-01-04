@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>陣列選轉</title>
+    <link rel="stylesheet" type="text/css" href="./css/normalize.min.css">
+    <style>
+    .card {
+        width: 200px;
+        height: 300px;
+        float: left;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="pcxList"></div>
+    <script src="./js/jquery-3.1.1.min.js"></script>
+    <script>
+    var $pcxList = $('#pcxList');
+    var num = 10;
+    var arr = [];
+    var i = 0;
+    var pcxName = '';
+    var $card;
+    for (i; i < 10; i++) {
+        pcxName = 'p' + (i + 1) + '.jpg';
+        arr.push(pcxName);
+        $card = $('<div class="card"></div>');
+        $pcxList.append($card);
+    }
+
+    var $cards = $('.card');
+    var $card;
+    $cards.map(function(i, card) {
+        $card = $(card);
+        console.log($card);
+    })
+
+
+
+    function next() {
+        arr.push(arr.shift());
+    }
+
+    function back() {
+        arr.unshift(arr.pop());
+    }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>新年計時器</title>
+    <link rel="stylesheet" type="text/css" href="./css/normalize.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Anton|Kumar+One|Oswald" rel="stylesheet">
+    <style>
+    @import url(http://fonts.googleapis.com/earlyaccess/cwtexhei.css);
+    body {
+        font-family: 'cwTeXHei', sans-serif;
+    }
+    
+    .po_res {
+        position: relative;
+        width: 100%;
+    }
+    
+    #content {
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        background: url("./images/bg.jpg");
+        background-size: cover;
+        background-position: center bottom;
+        color: #fff;
+    }
+    
+    #newYearCount {
+        margin-top: 200px;
+        letter-spacing: 15px;
+        text-align: center;
+        font-size: 24px;
+        /*background-color: #f00;*/
+    }
+    
+    #clock {
+        position: absolute;
+        font-size: 24px;
+        text-align: center;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        background-color: #f00;
+        line-height: 36px;
+    }
+    
+    .newFont {
+        font-family: 'Kumar One', cursive;
+        font-family: 'Oswald', sans-serif;
+        font-family: 'Anton', sans-serif;
+        font-size: 124px;
+        color: #DBC523;
+        display: inline-block;
+        transform: translate(10px, 20px);
+    }
+    </style>
+</head>
+
+<body>
+    <div id="content">
+        <div id="newYearCount">
+            距離新年還有<span class="newFont" id="newYearCountTime"></span> 秒
+        </div>
+        <div id="clock">
+        </div>
+    </div>
+    <script src="./js/jquery-3.1.1.min.js"></script>
+    <script>
+    var isTimeOut = false;
+    var newYear = new Date('2017'); //格林威治時間
+    var timeOffset = newYear.getTimezoneOffset() * 60 * 1000; //時差
+    var endTime = newYear.getTime();
+    endTime = endTime + timeOffset;
+    var endSec;
+    var $clock = $('#clock');
+    var $newYearCountTime = $('#newYearCountTime');
+    var clockStr;
+    var date;
+    var timeId = setInterval(nextSec, 1000);
+    nextSec();
+
+    function nextSec() {
+        date = new Date();
+        clockStr = clockFormat(date);
+        endSec = endTime - date.getTime();
+        endSec = endSec / 1000;
+        endSec = Math.floor(endSec);
+        if (endSec < 0) {
+            isTimeOut = true;
+            $('#newYearCount').html('Happy New Year');
+        } else {
+            $newYearCountTime.html(endSec);
+        }
+
+        $clock.html(clockStr);
+    }
+
+    function clockFormat(date) {
+        var hh, mm, ss, formatStr;
+
+        hh = date.getHours();
+        if (hh < 10) {
+            hh = '0' + hh;
+        }
+        mm = date.getMinutes();
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        ss = date.getSeconds();
+        if (ss < 10) {
+            ss = '0' + ss;
+        }
+        formatStr = hh + ':' + mm + ':' + ss;
+        return formatStr;
+    }
+    </script>
+</body>
+
+</html>

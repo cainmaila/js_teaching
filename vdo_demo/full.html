@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>影片全螢幕</title>
+    <link rel="stylesheet" type="text/css" href="./css/normalize.min.css">
+    <style type="text/css" media="screen">
+    body {
+        overflow: hidden;
+    }
+    
+    #myVideo {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+    </style>
+</head>
+
+<body>
+    <div>
+        <video class="" id="myVideo">
+            <source src="./mv1.mp4" type="video/mp4">
+        </video>
+    </div>
+    <script src="./js/jquery-3.1.1.min.js"></script>
+    <script>
+    var stageW; //螢幕寬
+    var stageH; //螢幕高
+    var stageSC; //螢幕比例
+    var videoH; //影片高
+    var videoW; //影片寬
+    var videoSC; //影片比例
+    var $win = $(window);
+    //影片
+    var video = $('#myVideo');
+    //讀到影片時
+    video.on('canplay', onResize);
+    //畫面尺寸變動時
+    $win.on('resize', onResize);
+
+    function onResize() {
+        stageW = $win.width();
+        stageH = $win.height();
+        stageSC = stageH / stageW; //計算比例
+        videoH = video[0].videoHeight;
+        videoW = video[0].videoWidth;
+        videoSC = videoH / videoW; //計算比例
+        if (videoSC > stageSC) { //比較比例
+            //寬滿版 高自動
+            video.width(stageW);
+            video.height('auto');
+        } else {
+            //高滿板 寬自動
+            video.height(stageH);
+            video.width('auto');
+        }
+    }
+    </script>
+</body>
+
+</html>
