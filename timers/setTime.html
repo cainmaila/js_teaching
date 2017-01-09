@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>設定時間</title>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>時間設定 new Date()</h1>
+        <hr>
+        <h3>目前的時間</h3>
+        <code>
+        	var nowDate = new Date();<br><br>
+        </code>
+        <div id="nowTiem"></div>
+        <hr>
+        <h3>設定的時間</h3>
+        <code>
+        	//設定時間<br>
+    		var myDate = new Date();<br><br>
+    		//設定日期，參數為年 月 日，要注意的是，月份是 0~11 (不是 1~12)，所以 1 其實是代表2月份<br>
+    		myDate.setFullYear(2017, 1, 28);<br><br>
+    		//設定時間 參數為 小時 分 秒 毫秒(1/1000秒)<br>
+    		myDate.setHours(18, 0, 0, 0);<br><br>
+        </code>
+        <p id="myTiem">
+    </div>
+    </div>
+    <script src="./js/jquery-3.1.1.min.js"></script>
+    <script>
+    //取回時間物件
+    var nowDate = new Date();
+    //不帶參數輸出就是目前時間
+    $("#nowTiem").html(nowDate);
+
+    //設定時間
+    var myDate = new Date();
+    //設定日期，參數為年 月 日，要注意的是，月份是 0~11 (不是 1~12)，所以 1 其實是代表2月份
+    myDate.setFullYear(2017, 1, 28);
+    //設定時間 參數為 小時 分 秒 毫秒(1/1000秒)
+    myDate.setHours(18, 0, 0, 0);
+    $("#myTiem").html(myDate);
+    </script>
+</body>
+
+</html>
