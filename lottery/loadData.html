@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>抽獎機範例</title>
+    <!-- <link rel="stylesheet" type="text/css" href="./css/normalize.min.css"> -->
+    <style type="text/css">
+
+    </style>
+</head>
+
+<body>
+    <h1>抽獎機範例</h1>
+    <hr>
+    <div id="users">
+        <h3>抽獎人名單</h3>
+    </div>
+    <hr>
+    <div id="prizes">
+        <h3>獎品</h3>
+    </div>
+    <script src="./js/jquery-3.1.1.min.js"></script>
+    <script>
+    var $users = $('#users');
+    var $prizes = $('#prizes');
+    var userList; //抽獎人名單
+    var prizeList; //獎品資訊
+    //更新抽獎人資訊
+    $.get('./user.txt').then(loadUsersData, errorMessage);
+    $.get('./prize.json').then(loadPrizeData, errorMessage);
+
+    //取得抽獎人資料後
+    function loadUsersData(userData) {
+        userList = userData.split(',');
+        //整理陣列
+        userList = userList.map(function(name) {
+            return name.trim(); //清除前後空格
+        });
+        //建立名單DOM
+        buildUsersDom(userList, $users);
+    }
+
+    function loadPrizeData(prizeData) {
+        prizeList = JSON.parse(prizeData);
+        buildPrizesDom(prizeList, $prizes);
+    }
+
+    function buildPrizesDom(prizeList, $div) {
+        var $tr;
+        $div.append('<table></table>');
+        $div = $div.find('table');
+        prizeList.map(function(prize) {
+            $tr = $('<tr></tr>');
+            $tr.append('<td width="100px">' + prize.name + '</td>');
+            $tr.append('<td>' + prize.food + '</td>');
+            $div.append($tr);
+        });
+    }
+
+    //建立名單DOM
+    function buildUsersDom(userList, $div) {
+        var userDom;
+        $div.append("<ul></ul>");
+        $div = $div.find('ul'); //尋找ul標籤
+        userList.map(function(userName) {
+            userDom = "<li>" + userName + "</li>";
+            $div.append(userDom);
+        });
+    }
+
+    //印出錯誤資訊
+    function errorMessage(error) {
+        console.log(error.statusText);
+        alert(error.statusText);
+    }
+    </script>
+    <script src="http://127.0.0.1:35729/livereload.js"></script>
+</body>
+
+</html>
