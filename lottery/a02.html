@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>抽獎人名單資料整理與顯示</title>
+</head>
+<h1>抽獎人名單資料整理與顯示</h1>
+<div id=users>
+    <h3>抽獎人名單</h3>
+    <ul>
+    </ul>
+</div>
+
+<body>
+    <script src="./js/jquery-3.1.1.min.js"></script>
+    <script>
+    var $users = $('#users');
+    var userList; //抽獎人名單
+
+    //更新抽獎人資訊
+    $.get('./user.txt').then(loadUsersData, errorMessage);
+
+    //取得抽獎人資料後
+    function loadUsersData(userData) {
+        userList = userData.split(',');
+        //整理陣列
+
+        // userList = userList.map(function(name) {
+        //     return name.trim(); //清除前後空格
+        // });
+
+        //建立名單DOM
+
+        var userDom;
+        $users = $users.find('ul'); //尋找ul標籤
+        userList.forEach(function(userName) {
+            userDom = '<li>' + userName + '</li>';
+            $users.append(userDom);
+        });
+
+        // buildUsersDom(userList, $users)
+    }
+
+    //建立名單DOM
+    function buildUsersDom(userList, $div) {
+        var userDom;
+        //$div.append('<h3>抽獎人名單</h3>')
+        //$div.append('<ul></ul>'');
+        $div = $div.find('ul'); //尋找ul標籤
+        userList.map(function(userName) {
+            userDom = '<li>' + userName + '</li>';
+            $div.append(userDom);
+        });
+    }
+
+    //印出錯誤資訊
+    function errorMessage(error) {
+        console.log(error.statusText);
+        alert(error.statusText);
+    }
+    </script>
+</body>
+
+</html>

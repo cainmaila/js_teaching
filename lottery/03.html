@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>陣列操作</title>
+</head>
+
+<body>
+    <h1>陣列操作</h1>
+</body>
+<script>
+var arr = [1, 2, 3, 4, 5, 6];
+
+//取出
+var val = arr[0];
+// console.log(val);
+
+//陣列長度
+var len = arr.length;
+// console.log(len);
+
+//操作  刪減
+arr.push(7, 8); //塞在後面
+// console.log(arr);
+
+var tmp = arr.pop(); //抽出最後
+// console.log(tmp);
+// console.log(arr);
+
+tmp = arr.shift(); //重前面抽出
+// console.log(tmp);
+// console.log(arr);
+
+arr.unshift(0); //重前面塞入
+// console.log(tmp);
+// console.log(arr);
+
+//做一個 0 ~ 99 的陣列
+var arr100 = [];
+var i = 0;
+for (i; i < 100; i++) {
+    arr100.push(i);
+}
+// console.log(arr100);
+
+//任意抽取插入
+// var arr2 = arr100.splice(10); //抽取前面10個
+// console.log(arr2);
+// console.log(arr100);
+
+// arr2 = arr100.splice(10, 2); //從第10個開始抽2個
+// console.log(arr2);
+// console.log(arr100);
+
+// arr2 = arr100.splice(10, 2, 'A', 'B'); //從第10個開始抽2個,再插入後續
+// console.log(arr2);
+// console.log(arr100);
+
+//亂數抽出
+// var randomNum = Math.random() * arr.length;
+// console.log(randomNum);
+// randomNum = Math.floor(randomNum);
+// randomNum = ~~randomNum;
+// console.log(randomNum);
+// arr2 = arr100.splice(randomNum, 1);
+// tmp = arr2[0];
+// console.log(tmp);
+
+//forEach 循序取出
+// arr100.push('ABC')
+// arr100.forEach(function(val, key) {
+//     console.log(val, key)
+// })
+
+//map 依序處理
+// var newArr = arr100.map(function(val) {
+//     return val * 2;
+// })
+// console.log(newArr);
+
+
+//陣列旋轉
+// arr100.push(arr100.shift()); //左移
+// arr100.unshift(arr100.pop()); //右移
+</script>
+
+</html>

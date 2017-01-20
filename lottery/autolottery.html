@@ -48,47 +48,31 @@
     var $prizes = $('#prizes');
     var $result_table = $('#result > table > tbody');
     var $lotteryBn = $('#lotteryBn');
-    var $showName = $('#showName');
     var userList; //抽獎人名單
     var prizeList; //獎品資訊
-    var isRadom = false; //正在抽獎中
-    var timeId; //timer id
     //更新抽獎人資訊
     $.get('./user.txt').then(loadUsersData, errorMessage);
     $.get('./prize.json').then(loadPrizeData, errorMessage);
 
     $lotteryBn.on('click', function() {
-        var radomId, prize, winner, data, len;
 
-        if (isRadom) {
-            //抽出一名
-            isRadom = false;
-            clearInterval(timeId);
-            prize = prizeList.shift();
-            winner = userList.splice(radomId, 1);
-            data = {
-                name: winner[0],
-                prize: prize
-            }
-            pushAnWinner(data, $result_table);
-            buildUsersDom(userList, $users);
-            buildPrizesDom(prizeList, $prizes);
-            if (prizeList.length === 0 || userList.length === 0) {
-                $('#message').css('display', 'block');
-                $lotteryBn.css('display', 'none');
-                return;
-            }
-        } else {
-            //抽出一名
-            isRadom = true;
-            len = userList.length;
-            radomId = Math.random() * len;
-            radomId = Math.floor(radomId);
-            timeId = setInterval(function() {
-                $lotteryBn.html(userList[radomId]);
-                radomId++;
-                radomId = radomId >= len ? 0 : radomId;
-            }, 50);
+        var prize = prizeList.shift();
+        var radomId = Math.random() * userList.length;
+        radomId = Math.floor(radomId);
+        var winner = userList.splice(radomId, 1);
+        var data = {
+            name: winner[0],
+            prize: prize
+        }
+
+        pushAnWinner(data, $result_table);
+        buildUsersDom(userList, $users);
+        buildPrizesDom(prizeList, $prizes);
+
+        if (prizeList.length === 0 || userList.length === 0) {
+            $('#message').css('display', 'block');
+            $lotteryBn.css('display', 'none');
+            return;
         }
     });
 

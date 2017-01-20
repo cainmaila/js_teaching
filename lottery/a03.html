@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>獎項資料整理與顯示</title>
+</head>
+<h1>獎項資料整理與顯示</h1>
+<div id="prizes"></div>
+
+<body>
+    <script src="./js/jquery-3.1.1.min.js"></script>
+    <script>
+    var $prizes = $('#prizes');
+    var prizeList; //獎品資訊
+
+    //取得獎品資訊
+    $.get('./prize.json').then(loadPrizeData, errorMessage);
+
+    function loadPrizeData(prizeData) {
+        prizeList = JSON.parse(prizeData);
+        buildPrizesDom(prizeList, $prizes);
+    }
+
+    function buildPrizesDom(prizeList, $div) {
+        var $tr;
+        $div.append('<h3>獎品</h3>')
+        $div.append('<table></table>');
+        $div = $div.find('table');
+        //建立欄位
+        prizeList.map(function(prize) {
+            $tr = $('<tr></tr>');
+            $tr.append('<td width="100px">' + prize.name + '</td>');
+            $tr.append('<td>' + prize.food + '</td>');
+            $div.append($tr);
+        });
+    }
+
+    //印出錯誤資訊
+    function errorMessage(error) {
+        console.log(error.statusText);
+        alert(error.statusText);
+    }
+    </script>
+</body>
+
+</html>

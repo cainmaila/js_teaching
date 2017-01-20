@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>載入外部資料</title>
+</head>
+<h1>載入外部資料</h1>
+<div id=output>
+</div>
+<!-- <div id=users>
+    <ul>
+        <li>AAAAAA</li>
+        <li>BBBBBB</li>
+        <li>CCCCCC</li>
+    </ul>
+</div>
+ -->
+
+<body>
+    <script src="./js/jquery-3.1.1.min.js"></script>
+    <script>
+    var $dom = $('#output');
+    $.get('./user.txt').then(loadData, errorMessage);
+
+    // $.get('./prize.json').then(loadData, errorMessage);
+
+    // $.post('http://xxxx.com/api.php', {
+    //     name: 'my name',
+    //     pass: 'xxxx'
+    // }, loadData, errorMessage);
+
+    //載入後
+    function loadData(data) {
+        console.log(data);
+        $dom.html(data); //填入指定的html tag
+    }
+    //印出錯誤資訊
+    function errorMessage(error) {
+        console.log(error.statusText);
+        alert(error.statusText);
+    }
+    </script>
+</body>
+
+</html>

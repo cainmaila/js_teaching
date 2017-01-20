@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>資料結構</title>
+</head>
+
+<body>
+    <h1>資料結構</h1>
+</body>
+<script>
+//陣列
+var arr1 = [1, 2, 3, 'A', 'B', 'C']
+    // console.log(arr1);
+
+//多維陣列
+var arr2 = [4, 5, 6, arr1]
+    // console.log(arr2);
+    // console.log(arr2[3]);
+    // console.log(arr2[3][3]);
+
+//引用
+arr1[3] = 'D';
+// console.log(arr2[3][3]);
+
+//物件
+
+var data1 = {
+        name: '小丸子',
+        age: 9,
+        tel: '0930-885457',
+    }
+    // console.log(data1.name);
+    // console.log(data1.tel);
+    // console.log(data1['age']);
+
+//命名空間
+var MyObj = {
+    name: 'my name',
+    data: data1,
+    arr: arr2,
+    add: function(a, b) {
+        return a + b;
+    },
+}
+
+var tmp = MyObj.add(2, 3);
+// console.log(tmp);
+
+//封裝
+var MyClass = function(myName) {
+    return {
+        name: myName,
+        getName: function(endStr) {
+            return this.name + ' ' + endStr;
+        }
+    }
+}
+
+var A = MyClass('Cain');
+tmp = A.getName('先生');
+// console.log(tmp);
+
+var B = MyClass('Jess');
+tmp = B.getName('Chen');
+// console.log(tmp);
+
+tmp = MyClass('小叮噹').getName('機器貓');
+// console.log(tmp);
+</script>
+
+</html>
