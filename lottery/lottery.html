@@ -113,7 +113,11 @@
     }
 
     function loadPrizeData(prizeData) {
-        prizeList = JSON.parse(prizeData);
+        if (typeof prizeData === 'string') {
+            prizeList = JSON.parse(prizeData);
+        } else {
+            prizeList = prizeData;
+        }
         buildPrizesDom(prizeList, $prizes);
     }
 
