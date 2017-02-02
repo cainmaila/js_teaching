@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>jquery的dom操作</title>
+    <style type="text/css" media="screen">
+    h3 {
+        /*font-size: 24px;*/
+    }
+    </style>
+</head>
+
+<body>
+    <h1>jquery的dom操作</h1>
+    <div>
+        <h2>.html() 標籤內容與清空</h2>
+        <div id="html">預設內容</div>
+        <br>
+        <button id="htmlBn">htmlBn</button>
+    </div>
+    <hr>
+    <div>
+        <h2>.append() 標籤內插入內容</h2>
+        <div id="append">|預設內容|</div>
+        <br>
+        <button id="appendBn">appendBn</button>
+    </div>
+    <hr>
+    <div>
+        <h2>.appendTo() 填充內容</h2>
+        <div id="appendTo">|預設內容|</div>
+        <br>
+        <button id="appendToBn">appendToBn</button>
+    </div>
+    <hr>
+    <div>
+        <h2>.wrap() 包覆標籤</h2>
+        <div>原來的內容</div>
+        <div class="wrap">被包覆的內容A</div>
+        <div class="wrap">被包覆的內容B</div>
+        <br>
+        <button id="wrapBn">wrapBn</button>
+    </div>
+    <hr>
+    <div>
+        <h2>.after() & .before() 標籤外插入內容</h2>
+        <div id="outside">原來的內容</div>
+        <br>
+        <button id="outsideBn">outsideBn</button>
+    </div>
+    <hr>
+    <div>
+        <h2>.replaceWith()|.replaceAll() 替換內容</h2>
+        <div id="replace">原來的內容</div>
+        <br>
+        <button id="replaceBn">replaceBn</button>
+    </div>
+    <hr>
+    <script src="./js/jquery-3.1.1.min.js"></script>
+    <script>
+    /**
+     * 獲取集合中第一個匹配元素的HTML內容 或 設置每一個匹配元素的html內容。
+     */
+    $('#htmlBn').on('click', htmlDemo);
+
+    function htmlDemo() {
+        $('#html').html('被填上的內容');
+        //空字串代表清空內容
+        //$('#html').html(''); 
+        // $('#html').empty(); //不僅清空，還可以移除事件
+        // $('#html').remove(); //移除標籤與事件
+    }
+
+    /**
+     * 在每個被選擇元素裡面的末尾處插入參數內容。
+     */
+    $('#appendBn').on('click', appendDemo);
+
+    function appendDemo() {
+        $('#append').append('|被插入的內容|');
+        //選擇多個元素
+        //$('.append').append('|被插入的內容|');
+        //前方插入
+        // $('#append').prepend('|被插入的內容|');
+    }
+
+    /**
+     * 將選擇的元素插入到目標元素的最後面
+     */
+    $('#appendToBn').on('click', appendToDemo);
+
+    function appendToDemo() {
+        //一定要包標籤，參數與與append相反
+        $('<div>我要填的內容</div>').appendTo('#appendTo');
+        //移動替換
+        //$('h1').appendTo('#appendTo');
+        //前方插入
+        // $('<div>我要填的內容</div>').prependTo('#appendTo'); //與append相反
+    }
+
+    /**
+     * 外面加一層標籤
+     */
+    $('#wrapBn').on('click', wrapDemo);
+
+    function wrapDemo() {
+        $('.wrap').wrap('<h3>'); //個別包覆
+        // $('.wrap').wrapAll('<h3>'); //全部包覆
+        // $('.wrap').wrapInner('<h3>'); //內部包覆
+        // $('.wrap').unwrap(); //刪除外層
+    }
+
+    /**
+     * 標籤外部插入內容
+     */
+    $('#outsideBn').on('click', outsideDemo);
+    var num = 0;
+
+    function outsideDemo() {
+        num++;
+        $('#outside').before('放在前方' + num);
+        // $('#outside').after('|放在後方' + num);
+        // $('<span>放在前方' + num + '</span>').insertBefore('#outside');
+        // $('<span>放在後方' + num + '</span>').insertAfter('#outside');
+    }
+
+    /**
+     * 替換內容
+     */
+    $('#replaceBn').on('click', replaceDemo);
+
+    function replaceDemo() {
+        $('#replace').replaceWith('替換後內容');
+        // $('<div>替換後內容</div>').replaceAll('#replace');
+    }
+    </script>
+</body>
+
+</html>
