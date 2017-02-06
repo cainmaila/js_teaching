@@ -5,30 +5,30 @@
     <meta charset="UTF-8">
     <title>Jq範例 - Loading</title>
 </head>
+<script src="../lib/jquery-3.1.1.min.js"></script>
+<script>
+var $loading = $('#loading');
+var pa = 0;
+var loadingTimer;
+
+
+loadingTimer = setInterval(nowLoading, 100);
+$(document).ready(onReady);
+
+function nowLoading() {
+    pa++;
+    $loading.html(pa);
+}
+
+function onReady() {
+    clearInterval(loadingTimer);
+}
+</script>
 
 <body>
     <h1>Jq範例 - Loading</h1>
     <div id="loading"></div>
     <img src="./images/bigpcx.jpg" width="100%">
-    <script src="../lib/jquery-3.1.1.min.js"></script>
-    <script>
-    var $loading = $('#loading');
-    var pa = 0;
-    var loadingTimer;
-
-
-    loadingTimer = setInterval(nowLoading, 100);
-    $(document).ready(onReady);
-
-    function nowLoading() {
-        pa++;
-        $loading.html(pa);
-    }
-
-    function onReady() {
-        clearInterval(loadingTimer);
-    }
-    </script>
 </body>
 
 </html>
