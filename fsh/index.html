@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>progress bar</title>
+    <style>
+    body {
+        padding: 0px;
+        margin: 0px;
+        background-color: darksalmon;
+    }
+    
+    #change01 {
+        position: absolute;
+        right: 50%;
+        top: 150px;
+        width: 600px;
+        height: 100px;
+        background-color: indianred;
+        font-size: 24px;
+        font-family: Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
+        text-align: center;
+        line-height: 100px;
+        border-radius: 30px;
+        transform: translate(50%);
+    }
+    
+    #change02 {
+        position: absolute;
+        right: 50%;
+        top: 280px;
+        width: 600px;
+        height: 100px;
+        background-color: ghostwhite;
+        border-radius: 30px;
+        transform: translate(50%);
+        overflow: hidden;
+    }
+    
+    #myBar {
+        background-color: lightcoral;
+        border-radius: 30px;
+        /*transform: translate(50%);*/
+        width: 0px;
+        height: 100px;
+        position: absolute;
+    }
+    
+    .myMOUSE {
+        cursor: pointer;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="myMOUSE" id="change01" onmousedown="mDown()" onmouseup="mUp()">click here</div>
+    <div id="change02" onmousedown="mDown()" onmouseup="mUp()">
+        <div id="myBar"></div>
+    </div>
+    <script src="../lib/jquery-3.1.1.min.js"></script>
+    <script>
+    /* 變數宣告區 */
+    var $myBar = $('#myBar'); //會長大的進度條
+    var isDown = 0; //用來記錄是否按下狀態機 0沒按 1被按下
+    var down_time = 0; //紀錄進度條長大的數值 0~100
+
+    /* 主程式區 */
+
+    setInterval(addw, 100); //每100毫秒去執行一次 addw()
+
+    /* function定義區 */
+    function mDown() {
+        //按鈕案下時需要把狀態機變成1
+        isDown = 1;
+    }
+
+    function mUp() {
+        //按鈕沒被按下時需要把狀態機變成0
+        isDown = 0;
+    }
+
+    //每100毫秒去執行一次，依據狀態機的數值，去調整 down_time 增加或減少
+    function addw() {
+        if (isDown === 1) { //isDown = 1 代表按鈕被按下
+            down_time++; //down_time增加
+            if (down_time > 100) { //不能讓down_time超過100
+                down_time = 100;
+            }
+        } else { //否則代表按鈕沒被按下 (isDown = 0)
+            down_time--; //down_time減少
+            if (down_time < 0) { //不能讓down_time小於0(不能為負)
+                down_time = 0;
+            }
+        }
+        console.log(down_time); //輸出console (F12可以看)
+        $myBar.width(down_time + '%'); //改變進度條的寬，且用百分比的方式 (0%~100%)
+    }
+    </script>
+</body>
+
+</html>
