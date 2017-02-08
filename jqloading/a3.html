@@ -19,51 +19,30 @@
         background-color: #ffa;
     }
     
-    #paTxt {
+    #loadingBk > div {
         position: absolute;
         left: 50%;
         top: 50%;
         font-size: 24px;
         transform: translate(-64px, -50%);
     }
-    
-    #loadbar {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        width: 0%;
-        height: 10px;
-        background-color: #f00;
-    }
-    
-    #svgArc {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
     </style>
 </head>
 
 <body>
     <div id="loadingBk">
-        <div id="paTxt">loading 0%</div>
-        <div id="loadbar">
-        </div>
-        <div id="svgArc">
-        </div>
+        <div>loading 0%</div>
     </div>
     <h1>Jq範例 - Loading</h1>
     <img src="./images/bigpcx.jpg" width="100%">
     <script src="../lib/jquery-3.1.1.min.js"></script>
     <script>
     var $loadingBk = $('#loadingBk'); //載入loading畫面
-    var $loadPa = $('#paTxt'); //載入loading文字
-    var $loadbar = $('#loadbar');
+    var $loadPa = $loadingBk.find('div').eq(0); //載入loading文字
     var pa = 0; //loading進度 0~100
     var step = 0; //載入情況的狀態機 0載入中 1載入完成 2進度條100可以進場
     var loadingTimer; //計時器
-    var svg = new DrawSvgArc('#svgArc', 100, '#f00'); //新增svg百分比圓形繪製物件
+
     loadingTimer = setInterval(nowLoading, 100); //定義計時器，每100毫秒執行一次nowLoading()
     $(window).on('load', onReady); //載完就觸發onReady()
 
@@ -76,8 +55,6 @@
             }
             // pa = pa === 100 ? 99 : pa;
             $loadPa.html('loading ' + pa + '%'); //進度填入畫面
-            $loadbar.css('width', pa + '%'); //設定上方進度
-            svg.setAg(pa / 100 * 360); //設定畫圓角度
         } else if (step === 1) { //網頁載入完成
             pa += 10; //加速載入
             if (pa >= 100) { //進度條到達100時
@@ -85,8 +62,6 @@
                 step = 2; //改變狀態機
             }
             $loadPa.html('loading ' + pa + '%');
-            $loadbar.css('width', pa + '%');
-            svg.setAg(pa / 100 * 360);
         } else if (step === 2) { //進度條到達100，進場畫面
             clearInterval(loadingTimer);
             $loadingBk.fadeOut(1000);
@@ -97,33 +72,6 @@
     //觸發載入完成事件
     function onReady() {
         step = 1;
-
-    }
-
-    /**
-     * svg百分比圓形繪製物件，執行setAg(0~360)可繪製圓弧
-     * @param {String} dom   要繪製的DIV
-     * @param {String} r     半徑
-     * @param {String} color 顏色
-     */
-    function DrawSvgArc(dom, r, color) {
-        ag = 0;
-        var $svg = $(dom);
-        var srX = r;
-        var srY = 0;
-        var R = Math.PI / 180;
-        var endX = srX;
-        var endY = srY;
-        $svg.html('<svg width="' + r * 2 + 'px" height="' + r * 2 + 'px"><path d="M' + srX + ' ' + srY + ' A' + r + ' ' + r + ',0 0 1 ' + endX + ' ' + endY + '" stroke="' + color + '" fill="none"></svg>');
-        $svg = $svg.find('path');
-        // console.log($svg.attr('d'))
-        this.setAg = function(ag) {
-            ag = ag >= 360 ? 360 - 0.01 : ag;
-            endX = r + Math.sin(R * ag) * r;
-            endY = r - Math.cos(R * ag) * r;
-            var agr = ag > 180 ? '1' : 0;
-            $svg.attr('d', 'M' + srX + ' ' + srY + ' A' + r + ' ' + r + ',0 ' + agr + ' 1 ' + endX + ' ' + endY);
-        }
     }
     </script>
 </body>

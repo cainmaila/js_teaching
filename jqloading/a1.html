@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Jq範例 - Loading</title>
+</head>
+
+<body>
+    <h1>Jq範例 - Loading</h1>
+    <div id="loading"></div>
+    <img src="./images/bigpcx.jpg" width="100%">
+    <script src="../lib/jquery-3.1.1.min.js"></script>
+    <script>
+    var $loading = $('#loading'); //計時器顯示欄
+    var pa = 0; //進度數據
+    var loadingTimer; //計時器
+
+    loadingTimer = setInterval(nowLoading, 100); //定義計時器，每100毫秒執行一次nowLoading()
+    $(window).on('load', onReady); //當頁面全部載入完成(含圖片)就觸發onReady()
+    //$(window).load(onReady); //反模式，這樣錯誤
+    // $(document).ready(onReady); //當頁面載入完成(不含文件)就觸發onReady()
+    //$(onReady) //ready的建議寫法
+
+    //計時器執行
+    function nowLoading() {
+        pa++;
+        $loading.html(pa);
+    }
+
+    //觸發載入完成事件
+    function onReady() {
+        clearInterval(loadingTimer);
+    }
+    </script>
+</body>
+
+</html>

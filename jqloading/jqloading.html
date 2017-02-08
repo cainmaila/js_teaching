@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Jq範例 - 偽造Loading進度</title>
+    <title>Jq範例 - Loading畫面範例</title>
     <link rel="stylesheet" type="text/css" href="./css/normalize.min.css">
     <style>
     body {
@@ -116,7 +116,6 @@
         var endY = srY;
         $svg.html('<svg width="' + r * 2 + 'px" height="' + r * 2 + 'px"><path d="M' + srX + ' ' + srY + ' A' + r + ' ' + r + ',0 0 1 ' + endX + ' ' + endY + '" stroke="' + color + '" fill="none"></svg>');
         $svg = $svg.find('path');
-        // console.log($svg.attr('d'))
         this.setAg = function(ag) {
             ag = ag >= 360 ? 360 - 0.01 : ag;
             endX = r + Math.sin(R * ag) * r;

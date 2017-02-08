@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Jq範例 - Loading畫面</title>
+    <link rel="stylesheet" type="text/css" href="./css/normalize.min.css">
+    <style>
+    #loadingBk {
+        position: fixed;
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        bottom: 0px;
+        background-color: #ffa;
+    }
+    
+    #loadingBk > div {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        font-size: 24px;
+        transform: translate(-64px, -50%);
+    }
+    </style>
+</head>
+
+<body>
+    <div id="loadingBk">
+        <div>now loading</div>
+    </div>
+    <h1>Jq範例 - Loading</h1>
+    <img src="./images/bigpcx.jpg" width="100%">
+    <script src="../lib/jquery-3.1.1.min.js"></script>
+    <script>
+    var $loadingBk = $('#loadingBk'); //載入loading畫面
+    var $loadPa = $loadingBk.find('div').eq(0); //載入loading文字
+    var pa = 0; //loading狀態機 0 1 2 三種態太
+    var loadingTimer; //計時器
+
+    loadingTimer = setInterval(nowLoading, 500); //定義計時器，每500毫秒執行一次nowLoading()
+    $(window).on('load', onReady); //載完就觸發onReady()
+
+    //計時器執行
+    function nowLoading() {
+        pa++; //pa + 1
+        pa %= 3; // pa / 3 後把餘數給 pa
+        if (pa === 0) { //依據狀態顯示loading文字
+            $loadPa.html('now loading.');
+        } else if (pa === 1) {
+            $loadPa.html('now loading..');
+        } else if (pa === 2) {
+            $loadPa.html('now loading...');
+        }
+    }
+
+    //觸發載入完成事件
+    function onReady() {
+        clearInterval(loadingTimer);
+        $loadingBk.fadeOut(1000);
+    }
+    </script>
+</body>
+
+</html>
