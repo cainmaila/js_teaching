@@ -42,6 +42,14 @@
         left: 50%;
         transform: translate(-50%, -50%);
     }
+    
+    .imageLoading {
+        background: url('./images/Loading_icon.gif');
+        background-position: center center;
+        background-repeat: no-repeat;
+        width: 100%;
+        min-height: 500px;
+    }
     </style>
 </head>
 
@@ -54,8 +62,9 @@
         </div>
     </div>
     <h1>Jq範例 - Loading</h1>
-    <img src="./images/bigpcx.jpg" width="100%">
+    <img class="imageLoading" id="bigpcx" src="./images/bigpcx.jpg" width="100%">
     <script src="../lib/jquery-3.1.1.min.js"></script>
+    <script src="./js/drawSvgArc.js"></script>
     <script>
     var $loadingBk = $('#loadingBk'); //載入loading畫面
     var $loadPa = $('#paTxt'); //載入loading文字
@@ -65,7 +74,11 @@
     var loadingTimer; //計時器
     var svg = new DrawSvgArc('#svgArc', 100, '#f00'); //新增svg百分比圓形繪製物件
     loadingTimer = setInterval(nowLoading, 100); //定義計時器，每100毫秒執行一次nowLoading()
-    $(window).on('load', onReady); //載完就觸發onReady()
+    $(document).ready(onReady); //載完就觸發onReady()
+    // $(onReady); //與上行一樣意思
+    $('#bigpcx').on('load', function(e) {
+        console.log('圖片載入完成');
+    });
 
     //計時器執行
     function nowLoading() {
@@ -96,34 +109,8 @@
 
     //觸發載入完成事件
     function onReady() {
+        console.log('頁面載入完成');
         step = 1;
-
-    }
-
-    /**
-     * svg百分比圓形繪製物件，執行setAg(0~360)可繪製圓弧
-     * @param {String} dom   要繪製的DIV
-     * @param {String} r     半徑
-     * @param {String} color 顏色
-     */
-    function DrawSvgArc(dom, r, color) {
-        ag = 0;
-        var $svg = $(dom);
-        var srX = r;
-        var srY = 0;
-        var R = Math.PI / 180;
-        var endX = srX;
-        var endY = srY;
-        $svg.html('<svg width="' + r * 2 + 'px" height="' + r * 2 + 'px"><path d="M' + srX + ' ' + srY + ' A' + r + ' ' + r + ',0 0 1 ' + endX + ' ' + endY + '" stroke="' + color + '" fill="none"></svg>');
-        $svg = $svg.find('path');
-        // console.log($svg.attr('d'))
-        this.setAg = function(ag) {
-            ag = ag >= 360 ? 360 - 0.01 : ag;
-            endX = r + Math.sin(R * ag) * r;
-            endY = r - Math.cos(R * ag) * r;
-            var agr = ag > 180 ? '1' : 0;
-            $svg.attr('d', 'M' + srX + ' ' + srY + ' A' + r + ' ' + r + ',0 ' + agr + ' 1 ' + endX + ' ' + endY);
-        }
     }
     </script>
 </body>
