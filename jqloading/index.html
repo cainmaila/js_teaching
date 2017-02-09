@@ -62,7 +62,7 @@
         </div>
     </div>
     <h1>Jq範例 - Loading</h1>
-    <img class="imageLoading" id="bigpcx" src="./images/bigpcx.jpg" width="100%">
+    <img class="imageLoading" id="bigpcx">
     <script src="../lib/jquery-3.1.1.min.js"></script>
     <script src="./js/drawSvgArc.js"></script>
     <script>
@@ -76,9 +76,12 @@
     loadingTimer = setInterval(nowLoading, 100); //定義計時器，每100毫秒執行一次nowLoading()
     $(document).ready(onReady); //載完就觸發onReady()
     // $(onReady); //與上行一樣意思
-    $('#bigpcx').on('load', function(e) {
-        console.log('圖片載入完成');
-    });
+    var pcx = new Image();
+    pcx.src = './images/bigpcx.jpg';
+    pcx.onload = function() {
+        console.log('圖片載入完成2');
+        $('#bigpcx').attr('src', pcx.src);
+    }
 
     //計時器執行
     function nowLoading() {
