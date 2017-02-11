@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Jq範例 - Demo</title>
+    <style>
+    #loading {
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        background-color: #fff;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="loading">
+        loading...
+    </div>
+    <h1>Jq範例 - Loading</h1>
+    <div id="loading"></div>
+    <img src="./images/bigpcx.jpg" width="100%">
+    <script src="../lib/jquery-3.1.1.min.js"></script>
+    <script>
+    $(window).on('load', ready);
+
+    function ready() {
+        // $('#loading').hide();
+    }
+    </script>
+</body </html>

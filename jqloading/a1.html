@@ -16,7 +16,7 @@
     var pa = 0; //進度數據
     var loadingTimer; //計時器
 
-    loadingTimer = setInterval(nowLoading, 100); //定義計時器，每100毫秒執行一次nowLoading()
+    loadingTimer = setInterval(nowLoading, 300); //定義計時器，每100毫秒執行一次nowLoading()
     $(window).on('load', onReady); //當頁面全部載入完成(含圖片)就觸發onReady()
     //$(window).load(onReady); //反模式，這樣錯誤
     // $(document).ready(onReady); //當頁面載入完成(不含文件)就觸發onReady()
