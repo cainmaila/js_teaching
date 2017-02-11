@@ -39,19 +39,19 @@
     <script>
     var $loadingBk = $('#loadingBk'); //載入loading畫面
     var $loadPa = $loadingBk.find('div').eq(0); //載入loading文字
-    var pa = 0; //loading進度 0~100
+    var pa = 100; //loading進度 0~100
     var step = 0; //載入情況的狀態機 0載入中 1載入完成 2進度條100可以進場
     var loadingTimer; //計時器
 
     loadingTimer = setInterval(nowLoading, 100); //定義計時器，每100毫秒執行一次nowLoading()
     $(window).on('load', onReady); //載完就觸發onReady()
 
-    //計時器執行
+    //計時器執行  
     function nowLoading() {
         if (step === 0) { //載入中,pa持續加+
             pa++; //pa + 1
             if (pa === 100) { //因為還沒載完，我們不能讓他等於100
-                pa === 99;
+                pa = 99;
             }
             // pa = pa === 100 ? 99 : pa;
             $loadPa.html('loading ' + pa + '%'); //進度填入畫面

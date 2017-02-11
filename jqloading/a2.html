@@ -38,13 +38,14 @@
     var pa = 0; //loading狀態機 0 1 2 三種態太
     var loadingTimer; //計時器
 
-    loadingTimer = setInterval(nowLoading, 500); //定義計時器，每500毫秒執行一次nowLoading()
+    loadingTimer = setInterval(nowLoading, 300); //定義計時器，每500毫秒執行一次nowLoading()
     $(window).on('load', onReady); //載完就觸發onReady()
 
     //計時器執行
     function nowLoading() {
         pa++; //pa + 1
         pa %= 3; // pa / 3 後把餘數給 pa
+
         if (pa === 0) { //依據狀態顯示loading文字
             $loadPa.html('now loading.');
         } else if (pa === 1) {
@@ -56,8 +57,8 @@
 
     //觸發載入完成事件
     function onReady() {
-        clearInterval(loadingTimer);
-        $loadingBk.fadeOut(1000);
+        // clearInterval(loadingTimer);
+        // $loadingBk.fadeOut(1000);
     }
     </script>
 </body>
