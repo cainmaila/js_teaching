@@ -25,10 +25,13 @@
     <img src="./images/bigpcx.jpg" width="100%">
     <script src="../lib/jquery-3.1.1.min.js"></script>
     <script>
-    $(window).on('load', ready);
+    var num1 = new a1(2, 10, 15);
+    // console.log(num1.num);
 
-    function ready() {
-        // $('#loading').hide();
+    function a1(a, b, c) {
+        this.num = (a + b) * c / 2;
+        return this;
     }
     </script>
+    }
 </body </html>
