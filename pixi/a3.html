@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pixi - 全螢幕</title>
+    <style>
+    * {
+        padding: 0;
+        margin: 0
+    }
+    
+    body {
+        background-color: #f00;
+    }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.3.5/pixi.min.js"></script>
+    <script>
+    //創建一個renderer
+    var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, {
+        antialias: false, //自動消除鋸齒(不適所有瀏覽器都支援)
+        transparent: false, //背景透明
+        resolution: 1 //分辨率設定，不建議改動
+    });
+
+    //把繪製出的canvas放到dom中
+    document.body.appendChild(renderer.view);
+
+    //new一個容器
+    var stage = new PIXI.Container();
+
+    //renderer在stage上繪製
+    renderer.render(stage);
+
+    //全螢幕設置
+    renderer.view.style.position = "absolute"; //canvas css position:absolute
+    renderer.view.style.display = "block"; //canvas css display:block
+    renderer.autoResize = true; //canvas Resize自動重畫
+    window.onresize = function() { //觸發onresize
+        renderer.resize(window.innerWidth, window.innerHeight); //canvas resize
+    }
+    </script>
+</body>
+
+</html>

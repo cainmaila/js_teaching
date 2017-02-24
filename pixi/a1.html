@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>使用Pixi判斷是否支援WebGl</title>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.3.5/pixi.min.js"></script>
+    <script>
+    //判斷是否支援WebGL
+    var type = "WebGL"
+    if (!PIXI.utils.isWebGLSupported()) { //如果不支援webGL
+        type = "canvas"
+    }
+    PIXI.utils.sayHello(type)
+    </script>
+</body>
+
+</html>

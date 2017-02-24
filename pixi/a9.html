@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pixi - 循環移動2</title>
+    <style>
+    * {
+        padding: 0;
+        margin: 0
+    }
+    
+    body {
+        background-color: #f00;
+    }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.3.5/pixi.min.js"></script>
+    <script>
+    //創建一個renderer
+    var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, {
+        antialias: false, //自動消除鋸齒(不適所有瀏覽器都支援)
+        transparent: true, //背景透明
+        resolution: 1 //分辨率設定，不建議改動
+    });
+
+    //把繪製出的canvas放到dom中
+    document.body.appendChild(renderer.view);
+
+    //new一個容器
+    var stage = new PIXI.Container();
+
+    //new一個元件精靈
+    var mc = new PIXI.Sprite();
+    var mc2 = new PIXI.Sprite();
+
+    var mcV = 1;
+    var mc2V = 2;
+
+    //載入素材
+    PIXI.loader
+        .add("./images/mc.png")
+        .add("./images/mc2.png")
+        .load(setup);
+
+    //載入完成
+    function setup() {
+        //設定材質
+        mc.texture = PIXI.loader.resources["./images/mc.png"].texture;
+        mc2.texture = PIXI.loader.resources["./images/mc2.png"].texture;
+        //新增到舞台上
+        stage.addChild(mc);
+        // mc.pivot.x = mc.width / 2;
+        mc.anchor.x = 0.5;
+        mc.scale.x = -1;
+        stage.addChild(mc2);
+        mc2.anchor.x = 0.5;
+        mc2.y += 300;
+        stage.addChild(mc); //移動至上層
+        // mc.alpha = 0.7;
+        //renderer在stage上繪製
+        renderer.render(stage);
+        animation();
+    }
+
+    //全螢幕設置
+    renderer.view.style.position = "absolute"; //canvas css position:absolute
+    renderer.view.style.display = "block"; //canvas css display:block
+    renderer.autoResize = true; //canvas Resize自動重算
+    window.onresize = function() { //觸發onresize
+        renderer.resize(window.innerWidth, window.innerHeight); //canvas resize
+        renderer.render(stage);
+    }
+
+    //動畫
+    function animation(t) {
+        if (mc.x > window.innerWidth || mc.x < 0) {
+            mcV *= -1;
+            mc.scale.x *= -1;
+        }
+        if (mc2.x > window.innerWidth || mc2.x < 0) {
+            mc2V *= -1;
+            mc2.scale.x *= -1;
+        }
+        mc.x += mcV;
+        mc.alpha = (Math.sin(t / 500) / 2 + 0.5) || 0;
+        mc2.x += mc2V;
+        mc2.y += (Math.sin(t / 300) * 5) || 0;
+        renderer.render(stage);
+        requestAnimationFrame(animation);
+    }
+    </script>
+</body>
+
+</html>

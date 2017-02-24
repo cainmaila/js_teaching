@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pixi - 載入多個元素</title>
+    <style>
+    * {
+        padding: 0;
+        margin: 0
+    }
+    
+    body {
+        background-color: #f00;
+    }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.3.5/pixi.min.js"></script>
+    <script>
+    //創建一個renderer
+    var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, {
+        antialias: false, //自動消除鋸齒(不適所有瀏覽器都支援)
+        transparent: true, //背景透明
+        resolution: 1 //分辨率設定，不建議改動
+    });
+
+    //把繪製出的canvas放到dom中
+    document.body.appendChild(renderer.view);
+
+    //new一個容器
+    var stage = new PIXI.Container();
+
+    //new一個元件精靈
+    var mc = new PIXI.Sprite();
+    var mc2 = new PIXI.Sprite();
+
+    //載入素材
+    PIXI.loader
+        .add("./images/mc.png")
+        .add("./images/mc2.png")
+        .load(setup);
+
+    //載入完成
+    function setup() {
+        //設定材質
+        mc.texture = PIXI.loader.resources["./images/mc.png"].texture;
+        mc2.texture = PIXI.loader.resources["./images/mc2.png"].texture;
+        //新增到舞台上
+        stage.addChild(mc);
+        stage.addChild(mc2);
+        mc2.y += 300;
+        //renderer在stage上繪製
+        renderer.render(stage);
+        animation();
+    }
+
+    //全螢幕設置
+    renderer.view.style.position = "absolute"; //canvas css position:absolute
+    renderer.view.style.display = "block"; //canvas css display:block
+    renderer.autoResize = true; //canvas Resize自動重算
+    window.onresize = function() { //觸發onresize
+        renderer.resize(window.innerWidth, window.innerHeight); //canvas resize
+        renderer.render(stage);
+    }
+
+    //動畫
+    function animation() {
+        mc.x++;
+        mc2.x += 2;
+        renderer.render(stage);
+        requestAnimationFrame(animation);
+    }
+    </script>
+</body>
+
+</html>
