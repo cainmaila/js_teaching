@@ -11,18 +11,18 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.3.5/pixi.min.js"></script>
     <script>
-    //創建一個renderer
+    //創建一個renderer(畫家)
     var renderer = PIXI.autoDetectRenderer(500, 500);
     // var renderer = new PIXI.CanvasRenderer(500, 500); //強制canvas 
     // var renderer = new PIXI.WebGLRenderer(500, 500); //強制webgl
 
-    //把繪製出的canvas放到dom中
-    document.body.appendChild(renderer.view);
+    //把繪製出的canvas放到dom中(renderer.view = canvas)
+    document.getElementById('canvas').appendChild(renderer.view);
 
-    //new一個容器
+    //new一個容器(一張新圖紙)
     var stage = new PIXI.Container();
 
-    //renderer在stage上繪製
+    //renderer在stage上繪製(叫畫家去畫)
     renderer.render(stage);
     </script>
 </body>
