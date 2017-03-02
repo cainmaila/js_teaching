@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Pixi - 物件</title>
+    <title>Pixi - 物件複製</title>
     <style>
     * {
         padding: 0;
@@ -31,38 +31,22 @@
 
     //new一個容器
     var stage = new PIXI.Container();
-
-    //new一個元件精靈
-    var mc = new PIXI.Sprite();
-    var mc2 = new PIXI.Sprite();
-    var mc3;
-    var mcV = 1;
-    var mc2V = 2;
+    //烏龜物件陣列
+    var mcList = [];
 
     //載入素材
     PIXI.loader
-        .add("./images/mc.png")
         .add("./images/mc2.png")
         .load(setup);
 
     //載入完成
     function setup() {
-        //設定材質
-        mc.texture = PIXI.loader.resources["./images/mc.png"].texture;
-        mc2.texture = PIXI.loader.resources["./images/mc2.png"].texture;
-        //新增到舞台上
-        stage.addChild(mc);
-        // mc.pivot.x = mc.width / 2;
-        mc.anchor.x = 0.5;
-        mc.scale.x = -1;
-        stage.addChild(mc2);
-        mc2.anchor.x = 0.5;
-        mc2.y += 300;
-        stage.addChild(mc); //移動至上層
-        // mc.alpha = 0.7;
-        //renderer在stage上繪製
-        mc3 = newMc2();
-        stage.addChild(mc3);
+        let newMc;
+        for (var i = 0; i < 10; i++) {
+            newMc = newMc2(100 * i, i);
+            stage.addChild(newMc);
+            mcList.push(newMc);
+        }
         renderer.render(stage);
         animation();
     }
@@ -78,31 +62,21 @@
 
     //動畫
     function animation(t) {
-        if (mc.x > window.innerWidth || mc.x < 0) {
-            mcV *= -1;
-            mc.scale.x *= -1;
-        }
-        if (mc2.x > window.innerWidth || mc2.x < 0) {
-            mc2V *= -1;
-            mc2.scale.x *= -1;
-        }
-        mc.x += mcV;
-        mc.alpha = (Math.sin(t / 500) / 2 + 0.5) || 0;
-        mc2.x += mc2V;
-        mc2.y += (Math.sin(t / 300) * 5) || 0;
-        mc3.next(t);
+        mcList.map(function(mc) {
+            mc.next(t);
+        })
         renderer.render(stage);
         requestAnimationFrame(animation);
     }
 
     //創造一個物件
-    function newMc2() {
+    function newMc2(startY, v) {
         var self = new PIXI.Sprite();
         self.texture = PIXI.loader.resources["./images/mc2.png"].texture;
         self.anchor.x = 0.5;
-        self.y = 500;
+        self.y = startY;
         self.x = 0;
-        self.v = 3;
+        self.v = v;
         self.next = function(t) {
             if (self.x > window.innerWidth || self.x < 0) {
                 self.v *= -1;
