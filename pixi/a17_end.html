@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Pixi - 互動</title>
+    <title>Pixi - 替換素材</title>
     <style>
     * {
         padding: 0;
@@ -29,10 +29,12 @@
     document.body.appendChild(renderer.view);
     var stage = new PIXI.Container();
     var mc = new PIXI.Sprite();
-
+    //設定mc死亡狀態(未死亡)
+    mc.die = false;
     //載入素材
     PIXI.loader
         .add("./images/mc.png")
+        .add("./images/bom.png")
         .load(setup);
 
     //載入完成
@@ -45,8 +47,26 @@
         mc.scale.y = 0.5;
         mc.x = 300;
         mc.y = 300;
+
+        //互動事件設定
+        mc.interactive = true; //可互動
+        mc.buttonMode = true; //mouseOver出現手符號
+        mc.on('click', onClick);
         renderer.render(stage);
         animation();
+    }
+
+    //click後執行
+    function onClick(e) {
+        console.log(e);
+        //替換素材
+        mc.texture = PIXI.loader.resources["./images/bom.png"].texture;
+        mc.scale.x = 1;
+        mc.scale.y = 1;
+        //關閉觸發click事件
+        mc.off('click', onClick);
+        //設定mc死亡狀態
+        mc.die = true;
     }
 
     //全螢幕設置
@@ -60,6 +80,14 @@
 
     //動畫
     function animation(t) {
+        if (mc.die && mc.alpha > 0) {
+            mc.alpha -= 0.02;
+            mc.scale.x *= 1.01;
+            mc.scale.y *= 1.01;
+        }
+        if (mc.alpha < 0) {
+            stage.removeChild(mc);
+        }
         renderer.render(stage);
         requestAnimationFrame(animation);
     }

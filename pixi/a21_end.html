@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pixi - 複製物件</title>
+    <style>
+    * {
+        padding: 0;
+        margin: 0
+    }
+    
+    body {
+        background-color: #130A60;
+    }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.3.5/pixi.min.js"></script>
+    <script>
+    //創建一個renderer
+    var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, {
+        antialias: false, //自動消除鋸齒(不適所有瀏覽器都支援)
+        transparent: true, //背景透明
+        resolution: 1 //分辨率設定，不建議改動
+    });
+
+    document.body.appendChild(renderer.view);
+    var stage = new PIXI.Container();
+    var mc1;
+    //載入素材
+    PIXI.loader
+        .add("./images/mc.png")
+        .add("./images/bom.png")
+        .load(setup);
+
+    //載入完成
+    function setup() {
+        mc1 = new newMc();
+        renderer.render(stage);
+        animation();
+    }
+
+
+
+    //全螢幕設置
+    renderer.view.style.position = "absolute"; //canvas css position:absolute
+    renderer.view.style.display = "block"; //canvas css display:block
+    renderer.autoResize = true; //canvas Resize自動重算
+    window.onresize = function() { //觸發onresize
+        renderer.resize(window.innerWidth, window.innerHeight); //canvas resize
+        renderer.render(stage);
+    }
+
+    //動畫
+    function animation(t) {
+        if (mc1.parent) {
+            mc1.next();
+        }
+        renderer.render(stage);
+        requestAnimationFrame(animation);
+    }
+
+    //產生新物件工廠
+    function newMc() {
+        var mc = new PIXI.Sprite();
+        mc.die = false;
+        mc.texture = PIXI.loader.resources["./images/mc.png"].texture;
+        stage.addChild(mc);
+        mc.anchor.x = 0.5;
+        mc.anchor.y = 0.5;
+        mc.scale.x = -0.5;
+        mc.scale.y = 0.5;
+        mc.x = 300;
+        mc.y = 300;
+        mc.vx = 8;
+        //互動事件設定
+        mc.interactive = true; //可互動
+        mc.buttonMode = true; //mouseOver出現手符號
+        mc.on('click', onClick);
+        //click後執行
+        function onClick(e) {
+            mc.texture = PIXI.loader.resources["./images/bom.png"].texture;
+            mc.scale.x = 1;
+            mc.scale.y = 1;
+            mc.off('click', onClick);
+            mc.die = true;
+        }
+        //影格
+        function next(t) {
+            if (mc.die && mc.alpha > 0) {
+                mc.alpha -= 0.02;
+                mc.scale.x *= 1.01;
+                mc.scale.y *= 1.01;
+            } else {
+                mc.x += mc.vx;
+                //檢查是否超過螢幕
+                if (mc.x > window.innerWidth + 100) {
+                    //如果超過就回到螢幕最左邊
+                    mc.x = -100;
+                }
+            }
+            if (mc.alpha < 0) {
+                mc.parent.removeChild(mc);
+            }
+        }
+        //對外曝出，沒加這個外面call不到next方法
+        mc.next = next;
+        return mc;
+    }
+    </script>
+</body>
+
+</html>
