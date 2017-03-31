@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pixi - 拖曳物件</title>
+    <style>
+    * {
+        padding: 0;
+        margin: 0
+    }
+    
+    body {
+        background-color: #f00;
+    }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.3.5/pixi.min.js"></script>
+    <script>
+    var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, {
+        antialias: false,
+        transparent: true,
+        resolution: 1
+    });
+
+    document.body.appendChild(renderer.view);
+
+    var stage = new PIXI.Container();
+
+    var sprite = new PIXI.Sprite();
+
+    PIXI.loader
+        .add("./images/mc.png")
+        .load(setup);
+
+    function setup() {
+        sprite.texture = PIXI.loader.resources["./images/mc.png"].texture;
+        stage.addChild(sprite);
+        sprite.x = 300;
+        sprite.y = 300;
+
+        /* ================================================ */
+        sprite.interactive = true; //開啟互動功能
+        sprite.buttonMode = true; //mouse over 出現按鈕符號
+        sprite.anchor.set(0.5); //至中
+        sprite.on('pointerdown', onDragStart);
+        sprite.on('pointerup', onDragEnd);
+        sprite.on('pointermove', onDragMove);
+
+        renderer.render(stage);
+        animation();
+    }
+
+    //按下事件觸發
+    function onDragStart() {
+        this.alpha = 0.5;
+        this.dragging = true;
+    }
+
+    function onDragEnd() {
+        this.alpha = 1;
+        this.dragging = false;
+    }
+
+    function onDragMove(event) {
+        console.log(event.data.global);
+        if (this.dragging) {
+            this.position = event.data.global
+        }
+    }
+
+    //全螢幕設置
+    renderer.view.style.position = "absolute"; //canvas css position:absolute
+    renderer.view.style.display = "block"; //canvas css display:block
+    renderer.autoResize = true; //canvas Resize自動重算
+    window.onresize = function() { //觸發onresize
+        renderer.resize(window.innerWidth, window.innerHeight); //canvas resize
+        renderer.render(stage);
+    }
+
+    //動畫
+    function animation() {
+        renderer.render(stage);
+        requestAnimationFrame(animation);
+    }
+    </script>
+</body>
+
+</html>

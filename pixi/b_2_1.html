@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pixi - 文字</title>
+    <style>
+    * {
+        padding: 0;
+        margin: 0
+    }
+    
+    body {
+        background-color: #1099bb;
+    }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.3.5/pixi.min.js"></script>
+    <script>
+    var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, {
+        antialias: false,
+        transparent: true,
+        resolution: 1
+    });
+
+    document.body.appendChild(renderer.view);
+
+    var stage = new PIXI.Container();
+
+    //文字
+
+    var style = new PIXI.TextStyle({
+        fontFamily: 'Microsoft JhengHei',
+        fontSize: 48,
+        fontStyle: 'italic',
+        fontWeight: 'bold',
+        fill: ['#ffffff', '#00ff99'], // gradient
+        stroke: '#4a1850',
+        strokeThickness: 5,
+        dropShadow: true,
+        dropShadowColor: '#000000',
+        dropShadowBlur: 4,
+        dropShadowAngle: Math.PI / 6,
+        dropShadowDistance: 6,
+        wordWrap: true,
+        wordWrapWidth: 440
+    });
+
+    var richText = new PIXI.Text('你可以輸入文字', style);
+    richText.x = 500;
+    richText.y = 180;
+    stage.addChild(richText);
+
+    animation();
+
+    //全螢幕設置
+    renderer.view.style.position = "absolute"; //canvas css position:absolute
+    renderer.view.style.display = "block"; //canvas css display:block
+    renderer.autoResize = true; //canvas Resize自動重算
+    window.onresize = function() { //觸發onresize
+        renderer.resize(window.innerWidth, window.innerHeight); //canvas resize
+        renderer.render(stage);
+    }
+
+    //動畫
+    function animation() {
+        renderer.render(stage);
+        requestAnimationFrame(animation);
+    }
+    </script>
+</body>
+
+</html>

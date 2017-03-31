@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pixi - 底圖拼接</title>
+    <style>
+    * {
+        padding: 0;
+        margin: 0
+    }
+    
+    body {
+        background-color: #1099bb;
+    }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.3.5/pixi.min.js"></script>
+    <script>
+    var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, {
+        antialias: false,
+        transparent: true,
+        resolution: 1
+    });
+
+    document.body.appendChild(renderer.view);
+
+    var stage = new PIXI.Container();
+
+    //載入
+    PIXI.loader
+        .add("./images/sea.jpg")
+        .load(setup);
+
+    function setup() {
+        //取得素材
+        var texture = PIXI.Texture.fromImage('./images/sea.jpg');
+        //建立重複元件
+        var tilingSprite = new PIXI.extras.TilingSprite(texture, 800, 800);
+        //新增到stage
+        stage.addChild(tilingSprite);
+        animation();
+    }
+
+
+    //全螢幕設置
+    renderer.view.style.position = "absolute"; //canvas css position:absolute
+    renderer.view.style.display = "block"; //canvas css display:block
+    renderer.autoResize = true; //canvas Resize自動重算
+    window.onresize = function() { //觸發onresize
+        renderer.resize(window.innerWidth, window.innerHeight); //canvas resize
+        renderer.render(stage);
+    }
+
+    //動畫
+    function animation() {
+        renderer.render(stage);
+        requestAnimationFrame(animation);
+    }
+    </script>
+</body>
+
+</html>
