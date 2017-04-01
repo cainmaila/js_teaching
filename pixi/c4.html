@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>物件導向 - 自訂義物件prototype方法</title>
+</head>
+
+<body>
+</body>
+<script>
+//自訂物件
+function MyObject(name, x, y) {
+    this.name = name
+    this.x = x
+    this.y = y
+}
+//物件 prototype 方法
+MyObject.prototype.play = function() {
+    var self = this //把自己傳給self變數確保後面統一用一個物件
+    setInterval(function() {
+        self.x += 1
+        console.log(self.x)
+    }, 1000)
+}
+
+var a = new MyObject('cain', 100, 100)
+a.play()
+</script>
+
+</html>

@@ -49,10 +49,10 @@
         //互動事件設定
         mc.interactive = true; //可互動
         mc.buttonMode = true; //mouseOver出現手符號
-        mc.on('click', onClick);
+        // mc.on('click', onClick);
         // mc.on('mousedown', onClick);
         // mc.on('mouseup', onClick);
-        // mc.on('mousemove', onClick);
+        mc.on('mousemove', onClick);
         // mc.on('mouseout', onClick);
         // mc.on('mouseover', onClick);
         // mc.on('mouseupoutside', onClick); //移出區域+mouseup
@@ -67,10 +67,10 @@
 
     //click後執行
     function onClick(e) {
-        console.log(e);
+        console.log(e.data.global);
         //放大1.1倍
-        mc.scale.x *= 1.1;
-        mc.scale.y *= 1.1;
+        // mc.scale.x *= 1.1;
+        // mc.scale.y *= 1.1;
     }
 
     //全螢幕設置

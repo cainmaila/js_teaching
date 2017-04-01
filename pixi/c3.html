@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>物件導向 - 自訂義物件方法</title>
+</head>
+
+<body>
+</body>
+<script>
+//自訂物件
+function MyObject(name, x, y) {
+    var self = this //把自己傳給self變數確保後面統一用一個物件
+    self.name = name
+    self.x = x
+    self.y = y
+        //物件方法
+    self.play = function() {
+        setInterval(function() {
+            self.x += 1
+            console.log(self.x)
+        }, 1000)
+    }
+}
+
+var a = new MyObject('cain', 100, 100)
+a.play()
+</script>
+
+</html>

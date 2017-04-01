@@ -55,8 +55,8 @@
 
     //按下事件觸發
     function onDragStart() {
-        this.alpha = 0.5;
-        this.dragging = true;
+        this.alpha = 0.5
+        this.dragging = true
     }
 
     function onDragEnd() {
@@ -65,7 +65,7 @@
     }
 
     function onDragMove(event) {
-        console.log(event.data.global);
+        console.log(event);
         if (this.dragging) {
             this.position = event.data.global
         }
