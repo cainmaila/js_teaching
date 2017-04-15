@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>利用物件生成元件 - 複製元件</title>
+    <style>
+    * {
+        padding: 0;
+        margin: 0
+    }
+    
+    body {
+        background-color: #fff;
+    }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.3.5/pixi.min.js"></script>
+    <script>
+    var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.view);
+    var stage = new PIXI.Container();
+
+    //載入素材
+    PIXI.loader
+        .add("./images/mc.png")
+        .load(setup);
+
+    //載入完成
+    function setup() {
+
+        //生成Ghost物件
+        var ghostList = []
+        var ghost, v, sc, y, x, right
+        for (var i = 0; i < 50; i++) {
+            v = Math.random() * 5 + 1
+            sc = Math.random() * 0.4 + 0.1
+            y = Math.random() * window.innerHeight
+            x = Math.random() * window.innerWidth
+            right = Math.random() > 0.5
+            ghost = new Ghost(x, y, right, v, sc)
+            stage.addChild(ghost.mc)
+            ghostList.push(ghost)
+        }
+
+        renderer.render(stage);
+        animation()
+
+        //動畫
+        function animation() {
+            ghostList.map(function(ghost) {
+                ghost.play()
+            })
+            renderer.render(stage);
+            requestAnimationFrame(animation);
+        }
+    }
+
+
+
+    //物件
+
+    //Ghost.mc 就是 PIXI.Sprite 實體
+    function Ghost(x, y, isRight, v, sc) {
+        var mc = new PIXI.Sprite()
+        mc.texture = PIXI.loader.resources["./images/mc.png"].texture
+        mc.anchor.set(0.5)
+        mc.scale.set(sc)
+        if (isRight) {
+            mc.scale.x *= -1
+        }
+        mc.x = x
+        mc.y = y
+        this.mc = mc
+        this.isRight = isRight
+        this.v = v
+        this.sc = sc
+    }
+
+    Ghost.prototype.play = function() {
+        var mc = this.mc
+
+        if (this.isRight) {
+            mc.x += this.v
+        } else {
+            mc.x -= this.v
+        }
+
+        if (mc.x > window.innerHeight + 400) {
+            this.isRight = false
+            mc.scale.x = this.sc
+        } else if (mc.x < 0) {
+            this.isRight = true
+            mc.scale.x = -this.sc
+        }
+    }
+
+
+
+    //全螢幕設置
+    renderer.view.style.position = "absolute"; //canvas css position:absolute
+    renderer.view.style.display = "block"; //canvas css display:block
+    renderer.autoResize = true; //canvas Resize自動重算
+    window.onresize = function() { //觸發onresize
+        renderer.resize(window.innerWidth, window.innerHeight); //canvas resize
+        renderer.render(stage);
+    }
+    </script>
+</body>
+
+</html>

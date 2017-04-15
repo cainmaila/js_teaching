@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>利用物件生成元件 - 繼承</title>
+    <style>
+    * {
+        padding: 0;
+        margin: 0
+    }
+    
+    body {
+        background-color: #fff;
+    }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.3.5/pixi.min.js"></script>
+    <script>
+    var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.view);
+    var stage = new PIXI.Container();
+
+    //載入素材
+    PIXI.loader
+        .add("./images/mc.png")
+        .load(setup);
+
+    //載入完成
+    function setup() {
+
+        //生成一個Ghost物件
+        var ghost = new Ghost('Cain')
+        ghost.talk()
+
+        renderer.render(stage);
+        animation();
+    }
+
+    //動畫
+    function animation() {
+        renderer.render(stage);
+        requestAnimationFrame(animation);
+    }
+
+    //物件
+
+    function Ghost(name) {
+        this.mc = new PIXI.Sprite() //Ghost繼承PIXI.Sprite
+        this.myName = name //定義一個myName屬性，並把傳入的參數name設定給myName
+    }
+    //定義一個物件方法
+    Ghost.prototype.talk = function() {
+        console.log('我的名字叫做' + this.myName)
+    }
+
+
+    //全螢幕設置
+    renderer.view.style.position = "absolute"; //canvas css position:absolute
+    renderer.view.style.display = "block"; //canvas css display:block
+    renderer.autoResize = true; //canvas Resize自動重算
+    window.onresize = function() { //觸發onresize
+        renderer.resize(window.innerWidth, window.innerHeight); //canvas resize
+        renderer.render(stage);
+    }
+    </script>
+</body>
+
+</html>
