@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="myName" @keyup.enter.stop="addNew">
+        <div :data="type">
+            {{myName}}
+        </div>
+        <div>
+            {{add}}
+        </div>
+        <button @click="onCLick('abc')">按鈕</button>
+        <div v-for="(item,key) in list" @click="del(key)">name : {{item.name}}
+            <br>id:{{item.id}}</div>
+        <div v-if="show">
+            XXXXXXXXXXXXXX
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.js"></script>
+    <script>
+    new Vue({
+        el: '#app',
+        data: {
+            show: true,
+            myName: 'cain',
+            num: 1,
+            type: 'ccc',
+            list: [{
+                name: 'a',
+                id: 1
+            }, {
+                name: 'b',
+                id: 2
+            }, {
+                name: 'c',
+                id: 3
+            }, {
+                name: 'd',
+                id: 4
+            }, ],
+        },
+        computed: {
+            add() {
+                return this.num + '個'
+            },
+        },
+        watch: {
+            myName(val, old) {
+                console.log(val, old)
+
+
+            },
+        },
+        methods: {
+            onCLick(val) {
+                console.log(val)
+                this.myName = 'test!!'
+                this.show = !this.show
+            },
+            talk(val) {
+                console.log(val)
+            },
+            del(key) {
+                this.list.splice(key, 1)
+            },
+            addNew() {
+                this.list.push({
+                    name: this.myName
+                })
+                this.myName = ''
+            },
+        },
+    })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>TODOLIST</title>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+    .item {
+        width: 100%;
+        /*height: 30px;*/
+        margin: 2px 0px 2px 0px;
+        padding: 0px 5px 0px 5px;
+        background-color: #99ccff;
+        border-radius: 5px;
+        font-size: 18px;
+    }
+    
+    .item .del {
+        float: right;
+        color: #ff0000;
+    }
+    
+    .item:hover {
+        background-color: #6699ff;
+        cursor: grab;
+        cursor: -moz-grab;
+        cursor: -webkit-grab;
+    }
+    
+    .item.drag {
+        cursor: grab;
+        cursor: -moz-grab;
+        cursor: -webkit-grab;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="app">
+        <h1>Vue todolist</h1>
+        <input type="test" v-model="inputVal" @keyup.enter="onEnter">
+        <div class="item" v-for="(item,key) in list" @dblclick="editItem(key)" draggable="true" @dragstart.stop="onDragstart(key)" @dragenter.prevent="onDragover(key)" @dragover.prevent>
+            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+            <input type="text" v-model="list[key]" v-if="editKey===key" @keyup.enter.stop="exitEdit">
+            <span v-else>{{item}}</span>
+            <span class="del" @click.stop="delItem(key)">del</span>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.js"></script>
+    <script>
+    new Vue({
+        el: app,
+        data: {
+            inputVal: '',
+            list: ['test'],
+            editKey: -1,
+            dragKey: -1,
+            toDragKey: -1,
+        },
+        computed: {
+            // 把陣列轉字串
+            listData: function() {
+                return JSON.stringify(this.list)
+            },
+        },
+        methods: {
+            //輸入按下enter
+            onEnter: function(e) {
+                this.list.unshift(this.inputVal)
+                this.inputVal = ''
+            },
+            //刪除物件
+            delItem: function(key) {
+                this.editKey = -1
+                this.list.splice(key, 1)
+            },
+            //雙擊時顯示編輯
+            editItem: function(key) {
+                this.editKey = key
+            },
+            //離開編輯
+            exitEdit: function() {
+                this.editKey = -1
+            },
+            //開始拖曳
+            onDragstart: function(key) {
+                this.dragKey = key
+                this.editKey = -1
+            },
+            //拖曳移動位置時
+            onDragover: function(key) {
+                this.toDragKey = key
+            },
+        },
+        watch: {
+            //資料變動存檔
+            listData: function(val, old) {
+                localStorage.todoList = val
+            },
+            //交換位置
+            toDragKey: function(val, old) {
+                var dragData = this.list.splice(this.dragKey, 1)[0]
+                this.list.splice(this.toDragKey, 0, dragData)
+                this.dragKey = this.toDragKey
+            },
+        },
+        created: function() {
+            //啟動時讀檔
+            if (localStorage.todoList) {
+                this.list = JSON.parse(localStorage.todoList)
+            }
+        },
+    })
+    </script>
+</body>
+
+</html>
