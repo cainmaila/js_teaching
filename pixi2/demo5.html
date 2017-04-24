@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html>
+<meta charset="utf-8">
+<meta http-equiv="Pragma" content="no_cache">
+<meta name="viewport" content="width=device-width,user-scalable=no,minimum-scale=1.0, maximum-scale=1.0" >
+<meta property="og:title" content="pixi範例吃角子老虎機，請勿使用IE"/>
+<meta property="og:image" content="http://dl.dropboxusercontent.com/u/19304009/pixi/demo5image/view.jpg"/>
+<head>
+    <title>吃角子老虎機</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #910300;
+        }
+    </style>
+    <script src="pixi.js"></script>
+    <script src="minified/TweenMax.min.js"></script>
+</head>
+<body>
+    <script>
+    //音效=========================
+	var bbSound;
+	bbSound = document.createElement("audio");
+	document.body.appendChild(bbSound);
+	bbSound.setAttribute("src","demo5image/s1.mp3");
+    bbSound.setAttribute("type","audio/mpeg"); 
+    
+    var tooBadSound;
+	tooBadSound = document.createElement("audio");
+	document.body.appendChild(tooBadSound);
+	tooBadSound.setAttribute("src","demo5image/oo.mp3");
+    tooBadSound.setAttribute("type","audio/mpeg");
+    
+    var goodSound;
+	goodSound = document.createElement("audio");
+	document.body.appendChild(goodSound);
+	goodSound.setAttribute("src","demo5image/good.mp3");
+    goodSound.setAttribute("type","audio/mpeg");    
+    
+    var w,h,rod,r1,rr,barX=58,barY=145;
+    //stage setup=============================
+    var stage = new PIXI.Stage(0x910300, true);
+    var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, null);
+    document.body.appendChild(renderer.view);
+	renderer.view.style.position = "absolute";
+	renderer.view.style.top = "0px";
+	renderer.view.style.left = "0px";
+    
+    var texture = PIXI.Texture.fromImage("img2.jpg");
+    var tilingSprite = new PIXI.TilingSprite(texture, window.innerWidth, window.innerHeight);
+    stage.addChild(tilingSprite);    
+        
+    var bg = new PIXI.Sprite(PIXI.Texture.fromImage("demo5image/bg.jpg"))
+    stage.addChild(bg);
+    
+    var graphics = new PIXI.Graphics();
+    graphics.beginFill(0xFFFF00);
+    graphics.drawRect(0,0,310,122);
+    graphics.position.x = barX;
+    graphics.position.y = barY-11;
+    bg.addChild(graphics)
+    var textureArr = [];
+    for(var i=1;i<=5;i++){
+        textureArr.push(PIXI.Texture.fromImage("demo5image/"+i+".jpg"));
+    }
+    
+    var bunnyArr = [];
+    var bunny;
+    for(i=0;i<3;i++){
+        bunny = new PIXI.Sprite(textureArr[0]);
+        bunny.position.x = barX+i*110;
+        bunny.position.y = barY-100;
+        bunny.mask = graphics;
+        bunnyArr.push(bunny);
+    }
+    r1 = [];
+    var num = textureArr.length;
+    for(var j=0;j<3;j++){
+        for(i=1;i<20;i++){
+            rod = Math.floor(Math.random()*num);
+            r1.push(rod);
+            bunny  = new PIXI.Sprite(textureArr[rod]);
+            bunny.position.y = 100*i;
+            bunnyArr[j].addChild(bunny);
+        }
+        bg.addChild(bunnyArr[j]);
+    } 
+    
+    //event===================================
+    requestAnimFrame( animate );
+    resize();
+    window.onresize = resize;
+    window.onorientationchange = resize;
+    document.onclick = onclick;
+    function onclick(){
+        bbSound.play();
+        document.onclick = null;
+        for(j=0;j<2;j++){
+            TweenMax.to(bunnyArr[j].position,3+j*0.5,{y:-1800+barY,delay:j*0.2});
+        }
+         TweenMax.to(bunnyArr[j].position,3+j*0.5,{y:-1800+barY,delay:j*0.2,onComplete:restGame});
+    }
+    
+    function restGame(){
+        if((r1[17]==r1[17+19])&&(r1[17]==r1[17+19+19])){
+            goodSound.play();
+        }else{
+            tooBadSound.play();
+        }
+        document.onclick = randomCard;
+    }
+    function randomCard(){
+        for(j=0;j<3;j++){
+            for(i=0;i<19;i++){
+                rod = Math.floor(Math.random()*num);
+                r1[j*19+i] = rod
+                bunnyArr[j].getChildAt(i).setTexture(textureArr[rod]);  
+                bunnyArr[j].position.y = 100;
+            }
+        }
+        onclick();
+    }
+    //next Frame===========================
+    function animate() {
+        requestAnimFrame( animate );
+        tilingSprite.tilePosition.x -= 1;
+		tilingSprite.tilePosition.y -= 1;
+        renderer.render(stage);
+    }
+        
+    //resize===========================
+    function resize(){
+		w = window.innerWidth;
+		h = window.innerHeight;
+        stage.removeChild(tilingSprite);
+        tilingSprite  = new PIXI.TilingSprite(texture, w, h);
+        stage.addChildAt(tilingSprite,0);
+        bg.position.x = (w-456)/2;
+        bg.position.y = (h-326)/2-30;
+        renderer.resize(w, h);
+    }
+    </script>
+    </body>
+</html>

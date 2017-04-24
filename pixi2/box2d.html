@@ -1,0 +1,173 @@
+<!DOCTYPE HTML>
+<html>
+<meta charset="utf-8">
+<meta http-equiv="Pragma" content="no_cache">
+<meta name="viewport" content="width=device-width,user-scalable=no,minimum-scale=1.0, maximum-scale=1.0" >
+<meta property="og:title" content="pixi範例，請勿使用IE"/>
+<meta property="og:image" content="http://dl.dropboxusercontent.com/u/19304009/pixi/pixi1.jpg"/>
+<head>
+    <title>2DBox</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+        }
+    </style>
+    <script src="Box2d.min.js"></script>
+    <script src="pixi.js"></script>
+</head>
+<body>
+     <script>
+    // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+    window.requestAnimFrame = (function(){
+          return  window.requestAnimationFrame       || 
+                  window.webkitRequestAnimationFrame || 
+                  window.mozRequestAnimationFrame    || 
+                  window.oRequestAnimationFrame      || 
+                  window.msRequestAnimationFrame     || 
+                  function(/* function */ callback, /* DOMElement */ element){
+                    window.setTimeout(callback, 1000 / 60);
+                  };
+    })();
+        
+    var w=640,h=480;
+    var stage = new PIXI.Stage(0xffffff, true);
+    var renderer = PIXI.autoDetectRenderer(w, h, null);
+    document.body.appendChild(renderer.view);
+    var canvas = renderer.view;
+    var foot = new PIXI.Graphics();
+    foot.beginFill(0xff0000);
+    foot.drawRect(0,0,w,15);
+    foot.pivot.x= w/2;
+    foot.pivot.y = 15/2;
+    stage.addChild(foot);
+    
+    var mc1 = new PIXI.Graphics();
+    stage.addChild(mc1);
+    var mc2 = new PIXI.Graphics();
+    stage.addChild(mc2);
+         
+    var world;
+    
+    function init() {
+       
+        mc1.clear();
+        mc1.beginFill(0xff00f0);
+        mc2.clear();
+        mc2.beginFill(0x00fff0);
+        //stage setup=============================
+        
+        
+        
+        var   b2Vec2 = Box2D.Common.Math.b2Vec2
+        , b2BodyDef = Box2D.Dynamics.b2BodyDef
+        , b2Body = Box2D.Dynamics.b2Body
+        , b2FixtureDef = Box2D.Dynamics.b2FixtureDef
+        , b2Fixture = Box2D.Dynamics.b2Fixture
+        , b2World = Box2D.Dynamics.b2World
+        , b2MassData = Box2D.Collision.Shapes.b2MassData
+        , b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape
+        , b2CircleShape = Box2D.Collision.Shapes.b2CircleShape
+          ;
+     
+       world = new b2World(
+             new b2Vec2(0, 10)    //gravity
+          ,  true                 //allow sleep
+       );
+       
+       var SCALE = 30;
+     
+       var fixDef = new b2FixtureDef;
+       fixDef.density = 1.0;
+       fixDef.friction = 0.5;
+       fixDef.restitution = 0.2;
+     
+       var bodyDef = new b2BodyDef;
+     
+       //create ground
+       bodyDef.type = b2Body.b2_staticBody;
+       
+       // positions the center of the object (not upper left!)
+       bodyDef.position.x = canvas.width / 2 / SCALE;
+       bodyDef.position.y = (canvas.height / SCALE) - 1;
+       
+       fixDef.shape = new b2PolygonShape;
+        
+       // half width, half height. eg actual height here is 1 unit
+       fixDef.shape.SetAsBox((canvas.width / SCALE) / 2, 0.5 / 2);
+       world.CreateBody(bodyDef).CreateFixture(fixDef);
+     
+       foot.position.x = bodyDef.position.x*SCALE;
+       foot.position.y = bodyDef.position.y*SCALE;
+        
+       //create dynamic circle object
+       var r1 =  Math.random() + 0.1 //radius
+       bodyDef.type = b2Body.b2_dynamicBody;
+       fixDef.shape = new b2CircleShape(
+         r1
+       );
+        bodyDef.userData = mc1;
+       bodyDef.position.x = Math.random() * 15+5;
+       bodyDef.position.y = Math.random() * 10;
+        world.CreateBody(bodyDef).CreateFixture(fixDef);
+       mc1.drawCircle(0,0,r1*SCALE);
+       // create dynamic polygon object
+       bodyDef.type = b2Body.b2_dynamicBody;
+       fixDef.shape = new b2PolygonShape;
+        r1 = Math.random() + 0.1 //half width
+        var r2 = Math.random() + 0.1 //half height
+       fixDef.shape.SetAsBox(
+             
+          r1,r2  
+       );
+       bodyDef.userData = mc2;
+       bodyDef.position.x = Math.random() * 15+5;
+       bodyDef.position.y = Math.random() * 10;
+       world.CreateBody(bodyDef).CreateFixture(fixDef);
+        mc2.drawRect(0,0,r1*SCALE*2,r2*SCALE*2);
+        mc2.pivot.x = r1*SCALE;
+        mc2.pivot.y = r2*SCALE;
+       // mc2.rotation
+       //===畫
+     
+       // restart
+       setTimeout(init, 3000);
+    }; // init()
+    
+    function update() {
+        
+       world.Step(
+             1 / 60   //frame-rate
+          ,  10       //velocity iterations
+          ,  10       //position iterations
+       );
+       world.DrawDebugData();
+       world.ClearForces();
+        var body;
+        for (body = world.GetBodyList(); body != null; body = body.GetNext()) { 
+            if(body.GetUserData()!=null)
+             {
+                //console.log(body.GetPosition().y*30)
+                body.GetUserData().position.y = body.GetPosition().y*30;
+                body.GetUserData().position.x = body.GetPosition().x*30;
+                //console.log( body.GetAngle())
+                 body.GetUserData().rotation = body.GetAngle();
+             }
+        }
+       
+        //mc1.position.x = c1.position.x*30;
+        //mc1.position.y = c1.position.y*30;
+        renderer.render(stage);
+       //stats.update();
+       requestAnimFrame(update);
+    }; // update()
+  
+    init();
+    requestAnimFrame(update);
+    
+    </script>
+    
+    <div class="g-plusone" data-size="small" data-annotation="inline"></div>
+  </body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html>
+<meta charset="utf-8">
+<meta http-equiv="Pragma" content="no_cache">
+<meta name="viewport" content="width=device-width,user-scalable=no,minimum-scale=1.0, maximum-scale=1.0" >
+<head>
+    <title>滾動背景版型</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+        }
+    </style>
+    <script src="pixi.js"></script>
+</head>
+<body>
+    <script>
+        
+    //音效=========================
+	var bbSound;
+	bbSound = document.createElement("audio");
+	document.body.appendChild(bbSound);
+	bbSound.setAttribute("src","bgm.mp3");
+    bbSound.setAttribute("type","audio/mpeg");
+    bbSound.setAttribute("loop","ture");
+    bbSound.play();
+        
+    var tilingSprite = null;
+    var stage = new PIXI.Stage(0x97c56e, true);
+    var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, null);
+    document.body.appendChild(renderer.view);
+	renderer.view.style.position = "absolute";
+	renderer.view.style.top = "0px";
+	renderer.view.style.left = "0px";
+    requestAnimFrame( animate );
+    var texture = PIXI.Texture.fromImage("img2.jpg");
+    tilingSprite = new PIXI.TilingSprite(texture, window.innerWidth, window.innerHeight);
+    stage.addChild(tilingSprite);
+    window.onresize = resize;
+    window.onorientationchange = resize;
+    
+    
+        var textSample = new PIXI.Text("LION RIA\nHtml5 Canvas Demo", {font: "35px Arial", fill: "#FF0000",stroke: "white",strokeThickness: 5, align: "center"});
+        resize();
+    function animate() {
+        requestAnimFrame( animate );
+        tilingSprite.tilePosition.x -= 1;
+		tilingSprite.tilePosition.y -= 1;
+       textSample.alpha = Math.random()*0.5+0.5;
+        renderer.render(stage);
+    }
+    function resize()
+	{
+		w = window.innerWidth;
+		h = window.innerHeight;
+        stage.removeChild(tilingSprite);
+        tilingSprite  = new PIXI.TilingSprite(texture, w, h);
+        if(w<400){
+            tilingSprite.tileScale.x = 0.5;
+            tilingSprite.tileScale.y = 0.5;
+        }
+        stage.addChild(tilingSprite);
+        textSample.position.x = w/2 - textSample._width/2;
+		textSample.position.y = h/2 - textSample._height/2;
+        stage.addChild(textSample);
+		renderer.resize(w, h);
+	}
+    </script>
+    </body>
+</html>

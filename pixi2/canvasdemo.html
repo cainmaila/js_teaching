@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+<meta charset="utf-8">
+<meta http-equiv="Pragma" content="no_cache">
+<meta name="viewport" content="width=device-width,user-scalable=no,minimum-scale=1.0, maximum-scale=1.0" >
+<meta property="og:title" content="pixi範例，請勿使用IE"/>
+<meta property="og:image" content="http://dl.dropboxusercontent.com/u/19304009/pixi/pixi1.jpg"/>
+<head>
+    <title>2DBoxJs</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+        }
+    </style>
+    <script src="pixi.js"></script>
+</head>
+<body>
+    <canvas id="myCanvas" width="200" height="200"></canvas>
+    <script>
+    
+    var w,h;
+    var c=document.getElementById("myCanvas");
+    var cxt=c.getContext("2d");
+    cxt.fillStyle="#FF0000";
+    cxt.fillRect(0,0,150,75);
+    //stage setup=============================
+    
+    document.getElementById("myCanvas").addEventListener('touchmove', function(event){
+        alert(event.targetTouches[0].clientX);
+    });
+    
+    //event===================================
+    //requestAnimFrame( animate );
+    
+    //next Frame===========================
+    function animate() {
+        //requestAnimFrame( animate )
+       // renderer.render(stage);
+    }
+    
+    </script>
+ 
+    </body>
+</html>

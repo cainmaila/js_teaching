@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+<meta charset="utf-8">
+<meta http-equiv="Pragma" content="no_cache">
+<meta name="viewport" content="width=device-width,user-scalable=no,minimum-scale=1.0, maximum-scale=1.0" >
+<meta property="og:title" content="canvas範例，請勿使用IE"/>
+<meta property="og:image" content="http://dl.dropboxusercontent.com/u/19304009/pixi/pixi1.jpg"/>
+<head>
+    <title>行動裝置方向與加速器</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+    </style>
+    <script src="pixi.js"></script>
+    <script src="shake.js"></script>
+</head>
+<body>
+    <script>
+    var shakeTime = 0;
+    window.addEventListener('shake', shakeEventDidOccur, false);
+    //function to call when shake occurs
+    function shakeEventDidOccur () {
+        shakeTime++;
+        //put your own code here etc.
+        //if (confirm("Undo?")) {
+            
+        //}
+    }
+    // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+    window.requestAnimFrame = (function(){
+          return  window.requestAnimationFrame       || 
+                  window.webkitRequestAnimationFrame || 
+                  window.mozRequestAnimationFrame    || 
+                  window.oRequestAnimationFrame      || 
+                  window.msRequestAnimationFrame     || 
+                  function(/* function */ callback, /* DOMElement */ element){
+                    window.setTimeout(callback, 1000 / 60);
+                  };
+    })();
+        
+    var w,h;
+    //stage setup=============================
+    var stage = new PIXI.Stage(0x97c56e, true);
+    var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, null);
+    document.body.appendChild(renderer.view);
+	renderer.view.style.position = "absolute";
+	renderer.view.style.top = "0px";
+	renderer.view.style.left = "0px";
+    
+    var output = new PIXI.Text("output= ",{fill:0xff0000});
+    stage.addChild(output);
+    //event===================================
+    requestAnimFrame( animate );
+    resize();
+    window.onresize = resize;
+    window.onorientationchange = resize;
+    
+    //next Frame===========================
+    function animate() {
+        requestAnimFrame( animate );
+        output.setText(""+shakeTime);
+        renderer.render(stage);
+    }
+        
+    //resize===========================
+    function resize(){
+		w = window.innerWidth;
+		h = window.innerHeight;
+        renderer.resize(w, h);
+    }
+    
+    </script>
+ 
+    </body>
+</html>

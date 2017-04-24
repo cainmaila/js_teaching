@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html>
+<meta charset="utf-8">
+<meta http-equiv="Pragma" content="no_cache">
+<meta name="viewport" content="width=device-width,user-scalable=no,minimum-scale=1.0, maximum-scale=1.0" >
+<meta property="og:title" content="pixi範例，請勿使用IE"/>
+<meta property="og:image" content="http://dl.dropboxusercontent.com/u/19304009/pixi/pixi1.jpg"/>
+<head>
+    <title>影像載入測試</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+        }
+    </style>
+    <script src="pixi.js"></script>
+</head>
+<body>
+    <script>
+    var w,h;
+    //stage setup=============================
+    var stage = new PIXI.Stage(0x97c56e, true);
+    var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, null);
+    document.body.appendChild(renderer.view);
+	renderer.view.style.position = "absolute";
+	renderer.view.style.top = "0px";
+	renderer.view.style.left = "0px";
+    
+    //loading=================================
+    var loadingText = new PIXI.Text("loading..");
+    stage.addChild(loadingText);
+    
+    var assetsToLoader = ["bigpcx.jpg"];
+    loader = new PIXI.AssetLoader(assetsToLoader);
+    loader.onProgress = function(e){
+        console.log(loader);   
+    }
+    loader.onComplete = function(){
+        stage.removeChild(loadingText);
+        var tex = PIXI.Texture.fromImage("bigpcx.jpg");
+        var mc = new PIXI.Sprite(tex);
+        stage.addChild(mc);
+    }
+    loader.load();
+        
+   
+    
+    //event===================================
+    requestAnimFrame( animate );
+    resize();
+    window.onresize = resize;
+    window.onorientationchange = resize;
+    
+    //next Frame===========================
+    function animate() {
+        requestAnimFrame( animate );
+        renderer.render(stage);
+    }
+        
+    //resize===========================
+    function resize(){
+		w = window.innerWidth;
+		h = window.innerHeight;
+        renderer.resize(w, h);
+    }
+    
+    </script>
+ 
+    </body>
+</html>

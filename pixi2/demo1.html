@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>pixi版型</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+        }
+    </style>
+    <script src="pixi.js"></script>
+</head>
+<body>
+    <script>
+ 
+    // 創建Pixi的階段的一個新實例
+    var stage = new PIXI.Stage(0x66FF99);
+    // 創建一個渲染器實例
+    var renderer = PIXI.autoDetectRenderer(400, 300);
+    // 渲染視圖元素添加到DOM
+    document.body.appendChild(renderer.view);
+    requestAnimFrame( animate );
+	// 從圖像路徑創建一個紋理
+    var texture = PIXI.Texture.fromImage("img.png");
+    // 創建使用紋理一個新的Sprite
+    var bunny = new PIXI.Sprite(texture);
+    // 居中精靈錨點
+    bunny.anchor.x = 0.5;
+    bunny.anchor.y = 0.5;
+    // 移動精靈噸屏幕的中心
+    bunny.position.x = 200;
+    bunny.position.y = 150;
+    stage.addChild(bunny);
+	
+    function animate() {
+        requestAnimFrame( animate );
+        // just for fun, lets rotate mr rabbit a little
+        bunny.rotation += 0.1;
+        // render the stage   
+        renderer.render(stage);
+    }
+ 
+    </script>
+ 
+    </body>
+</html>

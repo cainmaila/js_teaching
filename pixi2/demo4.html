@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html>
+<meta charset="utf-8">
+<meta http-equiv="Pragma" content="no_cache">
+<meta name="viewport" content="width=device-width,user-scalable=no,minimum-scale=1.0, maximum-scale=1.0" >
+<meta property="og:title" content="pixi範例，請勿使用IE"/>
+<meta property="og:image" content="http://dl.dropboxusercontent.com/u/19304009/pixi/pixi1.jpg"/>
+<head>
+    <title>Html5 Canvas Demo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+        }
+    </style>
+    <script src="pixi.js"></script>
+</head>
+    <body>
+    <script>
+    //音效=========================
+	var bbSound;
+	bbSound = document.createElement("audio");
+	document.body.appendChild(bbSound);
+	bbSound.setAttribute("src","bgm.mp3");
+    bbSound.setAttribute("type","audio/mpeg");
+    bbSound.setAttribute("loop","ture");
+    bbSound.setAttribute("autoplay","ture");
+    
+    var killSoundArr = [];
+    var killSound;
+    for(var j=0;j<5;j++){
+        killSound = document.createElement("audio");
+	   document.body.appendChild(killSound);
+	   killSound.setAttribute("src","kill.mp3");
+        killSound.setAttribute("type","audio/mpeg");
+        killSoundArr.push(killSound);
+    }
+	
+        
+    var tilingSprite = null;
+    var stage = new PIXI.Stage(0x97c56e, true);
+    var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, null);
+    document.body.appendChild(renderer.view);
+	renderer.view.style.position = "absolute";
+	renderer.view.style.top = "0px";
+	renderer.view.style.left = "0px";
+    requestAnimFrame( animate );
+    var texture = PIXI.Texture.fromImage("img2.jpg");
+    tilingSprite = new PIXI.TilingSprite(texture, window.innerWidth, window.innerHeight);
+    stage.addChild(tilingSprite);
+    
+    //npc
+    var assetsToLoader = [ "npc2.json"];
+    loader = new PIXI.AssetLoader(assetsToLoader);
+    loader.onComplete = onAssetsLoaded;
+    loader.load();
+    
+    var npc_work = [];
+    var npc_act = [];
+    var npc;
+    function onAssetsLoaded(){
+        for (var i = 0; i <= 11; i++){
+            var texture = PIXI.Texture.fromFrame("work.swf/"+i);
+		 	npc_work.push(texture);
+        }
+        for (i = 0; i <= 10; i++){
+            var texture = PIXI.Texture.fromFrame("act.swf/000"+i);
+		 	npc_act.push(texture);
+        }
+        npc = new PIXI.MovieClip(npc_work);
+        npc.position.x = w/2;
+        npc.position.y = h-50;
+        npc.pivot.x = 60;
+        npc.pivot.y = 113;
+        stage.addChild(npc);
+        npc.animationSpeed = 0.5;
+        npc.play();
+    }    
+    window.onresize = resize;
+    window.onorientationchange = resize;
+    
+    
+        var textSample = new PIXI.Text("LION RIA\nHtml5 Canvas Demo", {font: "35px Arial", fill: "#FF0000",stroke: "white",strokeThickness: 5, align: "center"});
+        //手機擊點播放
+        document.onclick = function(){
+            bbSound.play();
+            killSound = killSoundArr.shift();
+            killSound.play();
+            killSoundArr.push(killSound);
+            npc.textures = npc_act;
+            npc.loop = false;
+            npc.gotoAndPlay(1);
+            npc.onComplete = function(){
+                npc.onComplete = null;
+                npc.textures = npc_work;
+                npc.loop = true;
+                npc.play();
+            }
+           //document.onclick = null;
+        }
+        resize();
+    function animate() {
+        requestAnimFrame( animate );
+        tilingSprite.tilePosition.x -= 1;
+		tilingSprite.tilePosition.y -= 1;
+       textSample.alpha = Math.random()*0.5+0.5;
+        renderer.render(stage);
+    }
+    function resize()
+	{
+		w = window.innerWidth;
+		h = window.innerHeight;
+        stage.removeChild(tilingSprite);
+        tilingSprite  = new PIXI.TilingSprite(texture, w, h);
+        if(w<400){
+            tilingSprite.tileScale.x = 0.5;
+            tilingSprite.tileScale.y = 0.5;
+        }
+        stage.addChild(tilingSprite);
+        textSample.position.x = w/2 - textSample._width/2;
+		textSample.position.y = h/2 - textSample._height/2;
+        stage.addChild(textSample);
+        if(npc!=undefined){
+            npc.position.x = w/2;
+            npc.position.y = h-50;
+            stage.addChild(npc);
+        }
+		renderer.resize(w, h);
+	}
+    </script>
+    </body>
+</html>

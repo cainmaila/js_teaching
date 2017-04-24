@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html>
+<meta charset="utf-8">
+<meta http-equiv="Pragma" content="no_cache">
+<meta name="viewport" content="width=device-width,user-scalable=no,minimum-scale=1.0, maximum-scale=1.0" >
+<meta property="og:title" content="pixi範例，請勿使用IE"/>
+<meta property="og:image" content="http://dl.dropboxusercontent.com/u/19304009/pixi/pixi1.jpg"/>
+<head>
+    <title>2DBoxJs</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+        }
+    </style>
+</head>
+<script src="http://connect.facebook.net/zh_TW/all.js"></script>
+<script src="pixi.js"></script>
+<body>
+    <div id="fb-root">
+    <script>
+    
+    //fb======================================
+    window.onload = function() {
+    // init the FB JS SDK
+        console.log(0);
+        FB.init({
+            appId      : '261685970513820',                        // App ID from the app dashboard
+            status     : true,                                 // Check Facebook Login status
+            xfbml      : true                                  // Look for social plugins on the page
+        });
+        getFbLoginStatus();
+    };
+    // Load the SDK asynchronously
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/zh_TW/all.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    
+    function getFbLoginStatus(){
+        FB.getLoginStatus(function(response) {
+            if (response.status === 'connected') {
+                var uid = response.authResponse.userID;
+                var accessToken = response.authResponse.accessToken;
+                console.log("uid="+uid);
+            } else if (response.status === 'not_authorized') {
+                 console.log("not_authorized");
+            } else {
+                // the user isn't logged in to Facebook.
+                console.log("the user isn't logged in to Facebook");
+            }
+        });   
+    }
+    
+    //pixi code================================
+    var w,h;
+    //stage setup=============================
+    var stage = new PIXI.Stage(0x97c56e, true);
+    //var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, null);
+    var renderer = new PIXI.CanvasRenderer(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.view);
+	renderer.view.style.position = "absolute";
+	renderer.view.style.top = "0px";
+	renderer.view.style.left = "0px";
+    
+    var texture = PIXI.Texture.fromImage("img.jpg");
+    var sp = new PIXI.Sprite(texture);
+    sp.position.x = sp.position.y = 100;
+    sp.setInteractive(true);
+    sp.buttonMode = true;
+    stage.addChild(sp);
+    sp.click = function(mouseData){
+        FB.login(function(response) {
+            if (response.authResponse) {
+                console.log('Welcome!  Fetching your information.... ');
+                FB.api('/me?fields=id,name,friends', function(response) {
+                    console.log('Good to see you, ' + response.name + '.');
+                    console.log(response);
+                    texture = PIXI.Texture.fromImage("http://graph.facebook.com/"+response.id+"/picture?type=normal");//normal large
+                    sp.setTexture(texture);
+                    var frd2 = PIXI.Sprite.fromImage("http://graph.facebook.com/"+response.friends.data[0].id+"/picture?type=normal");
+                    frd2.position.x=frd2.position.y = 100;
+                    sp.addChild(frd2);
+                    console.log(response.friends.data.length);
+                });
+            } else {
+                console.log('User cancelled login or did not fully authorize.');
+            }
+        });
+    }
+    
+    //event===================================
+    requestAnimFrame( animate );
+    resize();
+    window.onresize = resize;
+    window.onorientationchange = resize;
+    
+    //next Frame===========================
+    function animate() {
+        requestAnimFrame( animate );
+        renderer.render(stage);
+    }
+        
+    //resize===========================
+    function resize(){
+		w = window.innerWidth;
+		h = window.innerHeight;
+        renderer.resize(w, h);
+    }
+ 
+    </script>
+ 
+    </body>
+</html>
+   
