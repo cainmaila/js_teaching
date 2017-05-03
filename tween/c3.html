@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            font-family: Microsoft JhengHei;
+        }
+        
+        #wd {
+            position: relative;
+            top: 200px;
+            text-align: center;
+        }
+        
+        #wd span {
+            position: relative;
+            font-size: 48px;
+            display: inline-block;
+        }
+        
+        #mc {
+            position: relative;
+            top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div id="wd">
+            <span>H</span>
+            <span>E</span>
+            <span>L</span>
+            <span>L</span>
+            <span>O</span>
+            <span>!</span>
+            <span>&nbsp;&nbsp;</span>
+            <span>T</span>
+            <span>W</span>
+            <span>E</span>
+            <span>E</span>
+            <span>N</span>
+            <span>M</span>
+            <span>A</span>
+            <span>X</span>
+            <div id="mc">
+                <img src="./images/mc.png"></img>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+    <script>
+        TweenMax.staggerFrom('#wd span', 1.5, {
+            delay: 1,
+            top: '-50',
+            autoAlpha: 0,
+            rotationY: 360,
+            ease: Back.easeOut.config(2),
+        }, 0.3)
+        TweenMax.to('#mc', 1, {
+            rotationY: 15,
+            rotationX: 15,
+            y: '-30',
+            repeat: -1,
+            yoyo: true,
+        })
+    </script>
+</body>
+
+</html>

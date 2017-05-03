@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+        
+        #b1 {
+            position: absolute;
+            top: 100px;
+            left: 100px;
+            width: 100px;
+            height: 100px;
+            background-color: #ff0000;
+            /*border-radius: 50px;*/
+        }
+        
+        #b2 {
+            position: absolute;
+            top: 250px;
+            left: 100px;
+            width: 100px;
+            height: 100px;
+            background-color: #0000ff;
+            border-radius: 50px;
+        }
+        
+        #b3 {
+            position: absolute;
+            top: 400px;
+            left: 100px;
+            width: 100px;
+            height: 100px;
+            background-color: #0000ff;
+            border-radius: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="b1"></div>
+    <div id="b2"></div>
+    <div id="b3"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+    <script>
+        // TweenMax.to('div', 3, { left: 500, repeat: -1, yoyo: true })
+        // TweenMax.to('#b2', 1, { left: 500 })
+        TweenMax.staggerTo('div', 1, {
+            left: 500,
+            ease: Elastic.easeOut.config(1, 0.03),
+        }, 1)
+    </script>
+</body>
+
+</html>
