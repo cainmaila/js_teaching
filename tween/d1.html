@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TweenMax - PIXI</title>
+    <style>
+    * {
+        padding: 0;
+        margin: 0
+    }
+    
+    body {
+        background-color: #000000;
+    }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.3.5/pixi.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+    <script>
+    var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, {
+        antialias: false,
+        transparent: true,
+        resolution: 1
+    });
+
+    document.body.appendChild(renderer.view);
+
+    var stage = new PIXI.Container();
+
+
+    var aLine = {
+        x: 100
+    }
+
+    var bLine = {
+        y: 100
+    }
+    setup()
+
+    function setup() {
+
+        var graphics = new PIXI.Graphics();
+
+        stage.addChild(graphics);
+
+        TweenMax.to(aLine, 2, {
+            x: 800,
+            onUpdate: function() {
+                graphics.clear()
+                graphics.lineStyle(1, 0xffd900, 1);
+                graphics.moveTo(50, 50);
+                graphics.lineTo(aLine.x, 50);
+
+            },
+            repeat: -1,
+            yoyo: true,
+        })
+
+        TweenMax.to(bLine, 3, {
+            y: 500,
+            onUpdate: function() {
+                // graphics.clear()
+                graphics.lineStyle(1, 0xffd900, 1);
+                graphics.moveTo(50, 50);
+                graphics.lineTo(50, bLine.y);
+
+            },
+            repeat: -1,
+            yoyo: true,
+        })
+
+        var graphics2 = new PIXI.Graphics();
+        graphics2.lineStyle(1, 0xffd9ff, 1);
+        graphics2.moveTo(50, 50);
+        graphics2.bezierCurveTo(50, 200, 500, 200, 500, 50)
+        stage.addChild(graphics2);
+
+        var mk = new PIXI.Graphics();
+        stage.addChild(mk);
+        graphics2.mask = mk
+        var mkSize = {
+            w: 50
+        }
+        TweenMax.to(mkSize, 5, {
+            w: 500,
+            onUpdate: function() {
+                console.log(mkSize.w)
+                mk.clear()
+                mk.beginFill("0x0000ff")
+                mk.drawRect(50, 50, mkSize.w, 200);
+                mk.endFill()
+            },
+            repeat: -1,
+            yoyo: true,
+        })
+
+        animation()
+    }
+
+    //全螢幕設置
+    renderer.view.style.position = "absolute"; //canvas css position:absolute
+    renderer.view.style.display = "block"; //canvas css display:block
+    renderer.autoResize = true; //canvas Resize自動重算
+    window.onresize = function() { //觸發onresize
+        renderer.resize(window.innerWidth, window.innerHeight); //canvas resize
+        renderer.render(stage);
+    }
+
+    //動畫
+    function animation() {
+        //移動底圖
+        renderer.render(stage);
+        requestAnimationFrame(animation);
+    }
+    </script>
+</body>
+
+</html>
