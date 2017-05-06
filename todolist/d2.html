@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Vue</title>
+    <style>
+    #num {
+        position: absolute;
+        left: 500px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h1 v-if="isShow">{{myName}}</h1>
+        <div id="num" :style="{ left: leftNum+'px'}">
+            num = {{num}}
+        </div>
+        <button @click="onClick">按鈕</button>
+        <input type=" " v-model="inval ">
+        <h4>{{inval}}</h4>
+    </div>
+    <script src="https://unpkg.com/vue@2.3.2 "></script>
+    <script>
+    //一開始先 new Vue
+    var vm = new Vue({
+            el: '#app', //指定vue的操作div，一般而言可以包住全頁面
+            data: { // data資料值，可對應網頁上的文字或數據
+                myName: 'hello!!',
+                num: 0,
+                inval: '', //input 的 v-model 雙向綁定
+                leftNum: 300, //改變#num的style
+                isShow: true, //改變h1的v-if
+            },
+            methods: { //定義方法
+                onClick: function() { // @click="onClick" 按鈕觸發
+                    this.num += 2; //這裡的this指vue本身
+                    this.leftNum += 100
+                    this.isShow = !this.isShow
+                },
+            }
+        })
+        // setInterval(function() { // vm.num += 1; // }, 1000)
+    </script>
+</body>
+
+</html>
