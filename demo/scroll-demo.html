@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Scroll Demo</title>
+    <style>
+    * {
+        margin: 0px;
+        padding: 0px;
+    }
+    
+    .bk {
+        width: 100px;
+        height: 500px;
+    }
+    
+    #b1 {
+        background-color: #0094FF;
+    }
+    
+    #b2 {
+        background-color: #0026FF;
+    }
+    
+    #b3 {
+        background-color: #00FF90;
+    }
+    
+    #b4 {
+        background-color: #FF6A00;
+    }
+    
+    #b5 {
+        background-color: #FFB27F;
+    }
+    
+    #out {
+        position: fixed;
+        top: 0px;
+        left: 150px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div id="out">
+            <h1>卷軸高度{{scrollH}}</h1>
+        </div>
+        <div class="bk" id="b1"></div>
+        <div class="bk" id="b2"></div>
+        <div class="bk" id="b3"></div>
+        <div class="bk" id="b4"></div>
+        <div class="bk" id="b5"></div>
+    </div>
+    <script src="https://unpkg.com/vue@2.3.2 "></script>
+    <script>
+    var vm = new Vue({
+        el: '#app', //指定vue的操作div，一般而言可以包住全頁面
+        data: { // data資料值，可對應網頁上的文字或數據
+            scrollH: window.scrollY,
+        },
+        methods: { //定義方法
+            onScroll: function() {
+                this.scrollH = window.scrollY //抓到取卷軸高度
+            },
+        }
+    })
+
+    //檢查window的scroll事件(滾動)，觸發vm.onScroll()
+    window.addEventListener('scroll', vm.onScroll)
+    </script>
+</body>
+
+</html>
