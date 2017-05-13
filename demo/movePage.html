@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>頁面切換</title>
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        #app {
+
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+        }
+
+        #leftBn {
+            position: absolute;
+            background-color: #FF00FF;
+            width: 50px;
+            height: 100%;
+            left: 0px;
+        }
+
+        #rightBn {
+            position: absolute;
+            background-color: #FF00FF;
+            width: 50px;
+            height: 100%;
+            right: 0px;
+        }
+
+        .pp {
+            position: absolute;
+            display: none;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+        }
+
+        #p1 {
+            background-color: #FF0000;
+        }
+
+        #p2 {
+            background-color: #FFFF00;
+        }
+
+        #p3 {
+            background-color: #00FFFF;
+        }
+
+        #p4 {
+            background-color: #000fff;
+        }
+
+        .mov {
+            display: block;
+            left: 0px;
+            transition: left 2s;
+        }
+
+        .mov2 {
+            display: block;
+            left: 0px;
+            transition: left 2s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="pp" id="p1">AAAAAAAAAAAAAAAAAAAAAAAAA</div>
+        <div class="pp" id="p2">BBBBBBBBBBBBBBBBBBBBBBBBB</div>
+        <div class="pp" id="p3">CCCCCCCCCCCCCCCCCCCCCCCCC</div>
+        <div class="pp" id="p4">DDDDDDDDDDDDDDDDDDDDDDDDD</div>
+        <div id="leftBn"></div>
+        <div id="rightBn"></div>
+    </div>
+    <script>
+        //螢幕寬度，一進來抓一次，螢幕變化也會再抓
+        var satge_width = window.innerWidth
+        window.onresize = function () {
+            satge_width = window.innerWidth
+        }
+
+        //把4個頁面丟到變數
+        var p1 = document.getElementById('p1')
+        var p2 = document.getElementById('p2')
+        var p3 = document.getElementById('p3')
+        var p4 = document.getElementById('p4')
+        //因為有順序性，所以丟到陣列較好控制
+        var list = [p1, p2, p3, p4]
+        var last = list.length - 1 //紀錄長度，這是最後一筆的key所以需要減1
+        //左右按鈕
+        var leftBn = document.getElementById('leftBn')
+        var rightBn = document.getElementById('rightBn')
+
+        //陣列第一筆(第一頁) 顯示，注意看，原來的css我都預設隱藏
+        list[0].style.display = 'block'
+
+        //按下左邊按鈕(下一頁)
+        leftBn.addEventListener('click', function () {
+            list[1].style.left = satge_width + 'px' //第2頁先到進場位置
+            list[1].style.display = 'block' //顯示第2頁
+            leftBn.style.display = 'none' //按鈕隱藏
+            rightBn.style.display = 'none'
+            setTimeout(function () { //下一個階段，為要移動的物件加上CSS動態
+                list[0].style.transition = 'left 2s'
+                list[1].style.transition = 'left 2s'
+                list[0].style.left = -satge_width + "px"
+                list[1].style.left = "0px"
+            }, 0)
+            setTimeout(function () { //兩秒後動態結束
+                leftBn.style.display = 'block' //按鈕顯示
+                rightBn.style.display = 'block'
+                list[0].style.display = 'none' //移到外面的物件隱藏
+                list.push(list.shift()) //陣列選轉 ，把最前面抽到最後面
+            }, 2000)
+        })
+
+        //同理上方，只是變成倒回來做
+        rightBn.addEventListener('click', function () {
+            list[last - 1].style.left = -satge_width + 'px'
+            list[last - 1].style.display = 'block'
+            leftBn.style.display = 'none'
+            rightBn.style.display = 'none'
+            setTimeout(function () {
+                list[last].style.transition = 'left 2s'
+                list[last - 1].style.transition = 'left 2s'
+                list[last].style.left = satge_width + "px"
+                list[last - 1].style.left = "0px"
+            }, 0)
+            setTimeout(function () {
+                leftBn.style.display = 'block'
+                rightBn.style.display = 'block'
+                list[last].style.display = 'none'
+                list.unshift(list.pop()) //陣列選轉 ，把最後面的抽到最前面
+            }, 2000)
+        })
+    </script>
+</body>
+
+</html>
