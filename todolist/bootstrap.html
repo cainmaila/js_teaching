@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Bootstrap DEMO</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        .box {
+            /*每個框框，都一樣的設定可以寫一起*/
+            height: 300px;
+            border-radius: 10px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .a {
+            /*不同的地方各給不同的底圖*/
+            background-image: url("https://yyangc.github.io/got77/jackson.jpg");
+        }
+
+        .b {
+            background-image: url("https://yyangc.github.io/got77/jr.jpg");
+        }
+
+        .c {
+            background-image: url("https://yyangc.github.io/got77/mark.jpg");
+        }
+
+        @media (max-width: 992px) {
+            /* 這代表 992px 內的都改套這裡，我把 height改成500px */
+            .box {
+                height: 500px;
+                margin-top: 20px;
+                border-radius: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>這個DEMO套用了 Bootstrap 框架</h1>
+        <div class="row">
+            <div class="col-md-4 ">
+                <div class="box a">A</div>
+            </div>
+            <div class="col-md-4">
+                <div class="box b">B</div>
+            </div>
+            <div class="col-md-4">
+                <div class="box c">C</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

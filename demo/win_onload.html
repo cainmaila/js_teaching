@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>全頁含圖片載入事件</title>
+</head>
+
+<body>
+    <img id="pcx1" src="https://yyangc.github.io/got77/11.jpg" alt="">
+    <img id="pcx2" src="https://yyangc.github.io/got77/8.jpg" alt="">
+    <script>
+        var pcx1 = document.getElementById('pcx1')
+        var pcx2 = document.getElementById('pcx2')
+        console.log('1圖片載入前 ' + pcx1.height)
+        console.log('2圖片載入前 ' + pcx2.height)
+
+        //window.onload 所有圖資載入完畢後，會觸發這個函示
+        window.onload = function () {
+            console.log('1圖片載入後 ' + pcx1.height)
+            console.log('2圖片載入後 ' + pcx2.height)
+        }
+    </script>
+</body>
+
+</html>

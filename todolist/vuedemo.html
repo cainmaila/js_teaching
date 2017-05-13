@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的待辦辦事項</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container" id="app">
+        <h1>我的待辦辦事項</h1>
+        <input type="text" v-model="message" @keyup.enter="onEnter">
+        <!-- v-model 雙向綁定 message 變數-->
+        <!-- @keyup.enter="onEnter" 代表按下 enter 後呼叫 onEnter 函示-->
+        <div class="row">
+            <div class="col-md-12" v-for="item in list">{{item}}</div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: '', //雙向綁定 input 輸入框
+                list: ['test1', 'test2', 'test3', 'testAAAAA'] //列表中的資料
+            },
+            methods: {
+                //按下enter後觸發
+                onEnter: function () {
+                    //把message中的資料，追加到list中
+                    this.list.push(this.message)
+                    //把message清空，因為綁定關係輸入框也清空
+                    this.message = ''
+                },
+            },
+        })
+    </script>
+</body>
+
+</html>

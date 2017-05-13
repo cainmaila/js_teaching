@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIXI 貝茲 + TweenMax</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0
+        }
+
+        body {
+            background-color: #000000;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.3.5/pixi.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+    <script>
+        var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, {
+            antialias: false,
+            transparent: true,
+            resolution: 1
+        });
+
+        document.body.appendChild(renderer.view);
+
+        var stage = new PIXI.Container();
+        stage.interactive = true
+        stage.on('mousemove', function (e) {
+            // x2 = e.data.global.x
+            // y2 = e.data.global.y
+            x1 = e.data.global.x
+            y1 = e.data.global.y
+            console.log(e.data.global)
+        })
+        //載入
+        let x2 = 400
+        let y2 = 400
+        let x1 = 0
+        let y1 = 0
+        let graphics = new PIXI.Graphics()
+        setup()
+
+        function setup() {
+            stage.addChild(graphics)
+            animation()
+        }
+
+        //全螢幕設置
+        renderer.view.style.position = "absolute"; //canvas css position:absolute
+        renderer.view.style.display = "block"; //canvas css display:block
+        renderer.autoResize = true; //canvas Resize自動重算
+        window.onresize = function () { //觸發onresize
+            renderer.resize(window.innerWidth, window.innerHeight); //canvas resize
+            renderer.render(stage);
+        }
+
+        //動畫
+        function animation() {
+            graphics.clear()
+            graphics.lineStyle(3, 0xffd9ff, 1)
+            graphics.moveTo(0, 0)
+            graphics.bezierCurveTo(x1, y1, x2, y2, 400, 400)
+            graphics.bezierCurveTo(800, 400, 800, 800, 800, 800)
+            graphics.beginFill(0xFF700B, 1)
+            graphics.drawRect(x2, y2, 5, 5)
+            graphics.endFill()
+            renderer.render(stage);
+            requestAnimationFrame(animation);
+        }
+    </script>
+</body>
+
+</html>
