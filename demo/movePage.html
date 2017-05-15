@@ -128,20 +128,20 @@
 
         //同理上方，只是變成倒回來做
         rightBn.addEventListener('click', function () {
-            list[last - 1].style.left = -satge_width + 'px'
-            list[last - 1].style.display = 'block'
+            list[last].style.left = -satge_width + 'px'
+            list[last].style.display = 'block'
             leftBn.style.display = 'none'
             rightBn.style.display = 'none'
             setTimeout(function () {
+                list[0].style.transition = 'left 2s'
                 list[last].style.transition = 'left 2s'
-                list[last - 1].style.transition = 'left 2s'
-                list[last].style.left = satge_width + "px"
-                list[last - 1].style.left = "0px"
+                list[0].style.left = satge_width + "px"
+                list[last].style.left = "0px"
             }, 0)
             setTimeout(function () {
                 leftBn.style.display = 'block'
                 rightBn.style.display = 'block'
-                list[last].style.display = 'none'
+                list[0].style.display = 'none'
                 list.unshift(list.pop()) //陣列選轉 ，把最後面的抽到最前面
             }, 2000)
         })
